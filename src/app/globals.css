@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-body: var(--font-hanken), system-ui, sans-serif;
+
+  --color-ink: #13201a;
+  --color-cream: #f2efe6;
+  --color-forest: #284a3c;
+  --color-sage: #9fc4ae;
+  --color-gold: #c9a24b;
+  --color-deep: #0e1813;
+  --color-paper: #f4f0e8;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #13201a;
+  color: #f2efe6;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+:focus-visible {
+  outline: 2px solid #c9a24b;
+  outline-offset: 3px;
+}
+
+@keyframes cta-breathe {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(201, 162, 75, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(201, 162, 75, 0);
+  }
+}
+
+.cta-breathe {
+  animation: cta-breathe 3.2s ease-in-out infinite;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise {
+  animation: rise 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
