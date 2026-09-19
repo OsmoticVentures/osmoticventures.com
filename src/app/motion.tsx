@@ -79,7 +79,7 @@ export function ScrollProgress() {
   }, []);
   return (
     <div aria-hidden="true" className="fixed top-0 left-0 right-0 z-50 h-[3px] bg-transparent pointer-events-none">
-      <div className="h-full bg-[#C9A24B] origin-left" style={{ transform: `scaleX(${p})`, transition: "transform 80ms linear" }} />
+      <div className="h-full bg-magenta origin-left" style={{ transform: `scaleX(${p})`, transition: "transform 80ms linear" }} />
     </div>
   );
 }
