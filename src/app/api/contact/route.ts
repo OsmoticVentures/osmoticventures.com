@@ -55,7 +55,7 @@ export async function POST(req: Request) {
       auth: { user, pass },
     });
     await transport.sendMail({
-      from: `"osmoticventures.com" <${user}>`,
+      from: `"osmoticventures.com" <${process.env.MAIL_FROM || "site@osmoticventures.com"}>`,
       to: TO,
       replyTo: `"${p.name.replace(/"/g, "")}" <${p.email}>`,
       subject: `Call request from ${p.name}${p.company ? `, ${p.company}` : ""}`,
