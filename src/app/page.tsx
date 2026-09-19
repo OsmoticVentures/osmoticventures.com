@@ -185,7 +185,7 @@ function Hero() {
               <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-plum bg-deep">
                 <Image
                   src="/img/juan-usc.png"
-                  alt="Juan Arenas"
+                  alt="Juan Arenas Martin"
                   fill
                   priority
                   sizes="(min-width: 768px) 32vw, 64vw"
@@ -206,7 +206,7 @@ function Hero() {
 const CASES = [
   {
     company: "Metaba Health",
-    role: "Founding Go-to-Market Operator, 1 year 2 months",
+    role: "Founding Go-To-Market Operator, 1 year 2 months",
     n: 50,
     suffix: "+",
     label: "High-intent leads engaged",
@@ -909,6 +909,15 @@ function RequestACall() {
                   className="hover:text-cream hover:underline underline-offset-4"
                 >
                   LinkedIn
+                </a>{" "}
+                /{" "}
+                <a
+                  href="https://juanarenas.bio"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-cream hover:underline underline-offset-4"
+                >
+                  juanarenas.bio
                 </a>
               </p>
             </Reveal>

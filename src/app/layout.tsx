@@ -27,18 +27,18 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://osmoticventures.com"),
   title: "Osmotic Ventures, Go-to-Market for Scientific Companies",
   description:
-    "Go-to-market, marketing, and sales motion for biotech, pharma, diagnostics, and science-first brands. Owned and run by Juan Arenas. One client at a time. Reply within 24 hours.",
+    "Go-to-market, marketing, and sales motion for biotech, pharma, diagnostics, and science-first brands. Owned and run by Juan Arenas Martin. One client at a time. Reply within 24 hours.",
   openGraph: {
     title: "Osmotic Ventures, Go-to-Market for Scientific Companies",
     description:
-      "Go-to-market, marketing, and sales motion for biotech, pharma, diagnostics, and science-first brands. Owned and run by Juan Arenas. One client at a time.",
+      "Go-to-market, marketing, and sales motion for biotech, pharma, diagnostics, and science-first brands. Owned and run by Juan Arenas Martin. One client at a time.",
     images: [{ url: "/img/og-image.jpg", width: 1200, height: 1600 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Osmotic Ventures, Go-to-Market for Scientific Companies",
     description:
-      "Go-to-market, marketing, and sales motion for biotech, pharma, diagnostics, and science-first brands. Owned and run by Juan Arenas. One client at a time.",
+      "Go-to-market, marketing, and sales motion for biotech, pharma, diagnostics, and science-first brands. Owned and run by Juan Arenas Martin. One client at a time.",
     images: ["/img/og-image.jpg"],
   },
 };
