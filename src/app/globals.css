@@ -1,18 +1,25 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-display: var(--font-inter-tight), system-ui, sans-serif;
-  --font-body: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-heading), system-ui, sans-serif;
+  --font-body: var(--font-sans), system-ui, sans-serif;
 
-  --color-ink: #2a1219;
-  --color-deep: #1e0c11;
-  --color-plum: #4b2634;
-  --color-magenta: #a04a6c;
-  --color-mauve: #d9bda9;
-  --color-cream: #f2e7d8;
-  --color-paper: #faf4ea;
-  --color-brown: #6b4032;
-  --color-tan: #c8a888;
+  /* Primary dark ground */
+  --color-canvas: #13201a;
+  /* Hover tint for the canvas-fill CTA (paper sections) */
+  --color-canvas-hover: #1c2e24;
+  /* Darkest surface: footer */
+  --color-charcoal: #0c1712;
+  /* The one card fill on dark sections */
+  --color-surface: #2a4536;
+
+  /* Light section ground and card fill */
+  --color-paper: #f5f1e7;
+  --color-bone: #f2efe6;
+
+  /* The single accent: the CTA fill on dark sections, and the future OV monogram */
+  --color-sage: #9fc4ae;
+  --color-sage-hover: #8ab59d;
 }
 
 *,
@@ -26,31 +33,26 @@ html {
 }
 
 body {
-  background: #2a1219;
-  color: #f2e7d8;
+  background: #13201a;
+  color: #f2efe6;
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
+::selection {
+  background: #2a4536;
+  color: #f2efe6;
+}
+
+/* Dual-ring focus indicator: a bone inner line reads on dark grounds,
+   a soft canvas halo reads on light grounds, so one ring always shows. */
 :focus-visible {
-  outline: 2px solid #a04a6c;
+  outline: 2px solid #f2efe6;
   outline-offset: 3px;
-}
-
-@keyframes cta-breathe {
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 rgba(160, 74, 108, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 0 10px rgba(160, 74, 108, 0);
-  }
-}
-
-.cta-breathe {
-  animation: cta-breathe 3.2s ease-in-out infinite;
+  box-shadow: 0 0 0 5px rgba(19, 32, 26, 0.45);
+  border-radius: 2px;
 }
 
 @keyframes rise {

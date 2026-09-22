@@ -40,11 +40,19 @@ export function Reveal({
   );
 }
 
+function prefersReducedMotion() {
+  return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 export function CountUp({ to, prefix = "", suffix = "" }: { to: number; prefix?: string; suffix?: string }) {
   const { ref, shown } = useReveal();
   const [n, setN] = useState(0);
   useEffect(() => {
     if (!shown) return;
+    if (prefersReducedMotion()) {
+      setN(to);
+      return;
+    }
     let raf = 0;
     const start = performance.now();
     const dur = 1100;
@@ -62,25 +70,6 @@ export function CountUp({ to, prefix = "", suffix = "" }: { to: number; prefix?:
       {n.toLocaleString("en-US")}
       {suffix}
     </span>
-  );
-}
-
-export function ScrollProgress() {
-  const [p, setP] = useState(0);
-  useEffect(() => {
-    const onScroll = () => {
-      const h = document.documentElement;
-      const max = h.scrollHeight - h.clientHeight;
-      setP(max > 0 ? Math.min(1, h.scrollTop / max) : 0);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-  return (
-    <div aria-hidden="true" className="fixed top-0 left-0 right-0 z-50 h-[3px] bg-transparent pointer-events-none">
-      <div className="h-full bg-magenta origin-left" style={{ transform: `scaleX(${p})`, transition: "transform 80ms linear" }} />
-    </div>
   );
 }
 

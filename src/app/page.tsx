@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { CountUp, Reveal, ScrollProgress } from "./motion";
+import { CountUp, Reveal } from "./motion";
 
 const EMAIL = "juan@osmoticventures.com";
 const LINKEDIN = "https://linkedin.com/in/juanarenasmartin";
@@ -13,12 +13,11 @@ export default function Page() {
     <>
       <a
         href="#request-a-call"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-lg focus:bg-cream focus:px-4 focus:py-2 focus:text-ink"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-xl focus:bg-bone focus:px-4 focus:py-2 focus:text-canvas"
       >
         Skip to the form
       </a>
-      <ScrollProgress />
-      <main className="bg-ink text-cream font-body antialiased overflow-x-hidden">
+      <main className="bg-canvas text-bone font-body antialiased overflow-x-hidden">
         <Hero />
         <TrackRecord />
         <WhatIBuild />
@@ -36,24 +35,25 @@ export default function Page() {
 
 function CtaButton({
   href = "#request-a-call",
-  breathe = false,
   full = false,
   id,
+  variant = "dark",
 }: {
   href?: string;
-  breathe?: boolean;
   full?: boolean;
   id?: string;
+  /** Section the button sits on: "dark" (canvas ground) gets the sage fill, "light" (paper ground) gets a canvas fill. */
+  variant?: "dark" | "light";
 }) {
+  const onDark = variant === "dark";
   return (
     <a
       id={id}
       href={href}
       className={[
-        "inline-flex h-14 items-center justify-center whitespace-nowrap rounded-lg bg-magenta px-6 font-semibold text-white text-base",
-        "transition-colors duration-150 hover:bg-[#ae5a7c] active:translate-y-px",
-        "focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-magenta",
-        breathe ? "cta-breathe" : "",
+        "inline-flex h-14 items-center justify-center whitespace-nowrap rounded-xl px-6 font-semibold text-base",
+        onDark ? "bg-sage text-canvas hover:bg-sage-hover" : "bg-canvas text-bone hover:bg-canvas-hover",
+        "transition-[background-color,transform] duration-150 ease-out active:scale-[0.97]",
         full ? "w-full" : "w-full sm:w-auto",
       ].join(" ")}
     >
@@ -62,11 +62,25 @@ function CtaButton({
   );
 }
 
+function Logo({ size = "md", priority = false }: { size?: "md" | "sm"; priority?: boolean }) {
+  const oHeight = size === "md" ? "h-9 md:h-11" : "h-6 md:h-7";
+  const text = size === "md" ? "text-sm md:text-base" : "text-[10px] md:text-xs";
+  return (
+    <a href="#" aria-label="Osmotic Ventures" className="inline-flex items-center gap-2 md:gap-2.5">
+      <Image src="/ov-mark.png" alt="" width={153} height={564} aria-hidden priority={priority} className={`w-auto ${oHeight}`} />
+      <span className="flex flex-col justify-center leading-[0.95]">
+        <span className={`font-display font-normal uppercase tracking-[0.2em] text-bone ${text}`}>Osmotic</span>
+        <span className={`font-display font-normal uppercase tracking-[0.2em] text-bone ${text}`}>Ventures</span>
+      </span>
+    </a>
+  );
+}
+
 function SectionTitle({ id, title, onPaper = false }: { id: string; title: string; onPaper?: boolean }) {
   return (
     <h2
       id={id}
-      className={`font-display font-semibold text-[clamp(2rem,4vw,3rem)] leading-[1.1] tracking-[-0.01em] max-w-[24ch] ${onPaper ? "text-ink" : "text-cream"}`}
+      className={`font-display font-semibold text-[clamp(2rem,4vw,3rem)] leading-[1.1] tracking-[-0.01em] max-w-[24ch] ${onPaper ? "text-canvas" : "text-bone"}`}
     >
       {title}
     </h2>
@@ -99,57 +113,17 @@ function useAutoplay(mount: boolean) {
   return ref;
 }
 
-function HeroVideo() {
-  const mount = useSyncExternalStore(subscribeMotion, wantsVideo, () => false);
-  const ref = useAutoplay(mount);
-  return (
-    <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
-      <Image
-        src="/img/hero-poster.jpg"
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover"
-        style={{ objectPosition: "center 30%" }}
-      />
-      {mount && (
-        <video
-          ref={ref}
-          className="absolute inset-0 h-full w-full object-cover"
-          style={{ objectPosition: "center 30%" }}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster="/img/hero-poster.jpg"
-        >
-          <source src="/video/portfolio-hero.webm" type="video/webm" />
-          <source src="/video/portfolio-hero.mp4" type="video/mp4" />
-        </video>
-      )}
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(42,18,25,.94)_0%,rgba(42,18,25,.88)_38%,rgba(42,18,25,.45)_100%)]" />
-      <div className="absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(180deg,rgba(42,18,25,0),rgba(42,18,25,.92))]" />
-    </div>
-  );
-}
-
 function Hero() {
   return (
     <section
       aria-labelledby="hero-title"
-      className="relative isolate z-20 flex min-h-[88svh] flex-col lg:min-h-[100svh]"
+      className="relative isolate z-20 flex min-h-[88svh] flex-col bg-canvas lg:min-h-[80svh]"
     >
-      <HeroVideo />
-
       <header className={`${CONTAINER} flex h-16 items-center lg:h-[72px]`}>
-        <a href="#" className="font-display text-xl font-semibold text-cream">
-          Osmotic Ventures
-        </a>
+        <Logo priority />
       </header>
 
-      <div className={`${CONTAINER} flex flex-1 items-end pb-14 pt-10 md:pt-14`}>
+      <div className={`${CONTAINER} flex flex-1 items-center pb-14 pt-10 md:pt-14`}>
         <div className="grid w-full gap-10 md:grid-cols-12 md:gap-6 lg:gap-8">
           <div className="md:col-span-7 flex flex-col justify-end">
             <h1
@@ -160,20 +134,18 @@ function Hero() {
             </h1>
             <p
               style={{ "--d": "120ms" } as React.CSSProperties}
-              className="rise mt-6 max-w-[44ch] text-[17px] leading-[1.55] xl:text-lg"
+              className="rise mt-6 text-[17px] leading-[1.55] xl:text-lg"
             >
-              I build the commercial plan, the investor materials, the marketing, and the sales motion for
-              biotech, pharma, diagnostics, and science-first brands. Then I run it with you until the first
-              customers are closed.
+              Plan, materials, marketing, sales motion.
             </p>
             <div
               style={{ "--d": "200ms" } as React.CSSProperties}
               className="rise mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6"
             >
-              <CtaButton id="hero-cta" breathe />
+              <CtaButton id="hero-cta" />
               <a
                 href="#track-record"
-                className="text-base font-medium text-cream underline underline-offset-4 decoration-cream/50 hover:decoration-cream"
+                className="text-base font-medium text-bone underline underline-offset-4 decoration-bone/50 hover:decoration-bone"
               >
                 See the Work
               </a>
@@ -181,16 +153,16 @@ function Hero() {
           </div>
 
           <div className="md:col-span-4 md:col-start-9 flex items-center md:justify-end">
-            <div style={{ "--d": "90ms" } as React.CSSProperties} className="rise w-[64%] md:w-full">
-              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-plum bg-deep">
+            <div style={{ "--d": "90ms" } as React.CSSProperties} className="rise w-full">
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-surface bg-charcoal md:aspect-[4/5]">
                 <Image
                   src="/img/juan-usc.png"
                   alt="Juan Arenas Martin"
                   fill
                   priority
-                  sizes="(min-width: 768px) 32vw, 64vw"
+                  sizes="(min-width: 768px) 32vw, 100vw"
                   className="object-cover"
-                  style={{ objectPosition: "center 28%" }}
+                  style={{ objectPosition: "center 22%" }}
                 />
               </div>
             </div>
@@ -212,7 +184,7 @@ const CASES = [
     label: "High-intent leads engaged",
     body: "A 0-to-1 longevity-metabolomics diagnostics startup. I built the investor deck, the investor website, and the full commercial plan, then cold-called dermatologists and clinic decision-makers across Los Angeles and closed the first paying clients on a pilot program.",
     video: "/video/metaba.mp4",
-    aspect: "aspect-[16/9]",
+    aspect: "aspect-[16/9] lg:aspect-[4/3]",
     poster: "/img/poster-metaba.jpg",
     aria: "Project video, Metaba",
   },
@@ -224,7 +196,7 @@ const CASES = [
     label: "Biotech and pharma accounts owned",
     body: "Cold contact to close, on a CRM I built, with 20+ KOLs. I brought Amgen and USC Keck onto the sponsor list, grew annual sponsor revenue 30%, and closed deals up to $20k for a non-profit.",
     video: "/video/bcla.mp4",
-    aspect: "aspect-[3/4]",
+    aspect: "aspect-[3/4] lg:aspect-[4/3]",
     poster: "/img/poster-bcla.jpg",
     aria: "Project video, Biotech Connection LA",
   },
@@ -243,17 +215,17 @@ const CASES = [
 ];
 
 const LOGOS = [
-  { src: "/img/logos/metaba.svg", alt: "Metaba", w: 330, h: 64 },
-  { src: "/img/logos/usc-brain.png", alt: "USC Center for Personalized Brain Health", w: 1421, h: 212 },
-  { src: "/img/logos/biotech-connection.png", alt: "Biotech Connection LA", w: 751, h: 156 },
-  { src: "/img/logos/superbiome.png", alt: "Superbiome", w: 1715, h: 386 },
+  { src: "/img/logos/metaba.svg", alt: "Metaba", w: 330, h: 64, o: 0.55 },
+  { src: "/img/logos/usc-brain.png", alt: "USC Center for Personalized Brain Health", w: 1421, h: 212, o: 0.85 },
+  { src: "/img/logos/biotech-connection.png", alt: "Biotech Connection LA", w: 751, h: 156, o: 1, mh: 44 },
+  { src: "/img/logos/superbiome.png", alt: "Superbiome", w: 1715, h: 386, o: 0.38 },
 ];
 
 function VideoTile({ src, poster, aria, aspect }: { src: string; poster: string; aria: string; aspect: string }) {
   const mount = useSyncExternalStore(subscribeMotion, wantsVideo, () => false);
   const ref = useAutoplay(mount);
   return (
-    <div className={`relative ${aspect} w-full overflow-hidden rounded-xl bg-deep`}>
+    <div className={`relative ${aspect} w-full overflow-hidden rounded-xl bg-charcoal`}>
       <Image src={poster} alt="" fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover" />
       {mount && (
         <video
@@ -278,7 +250,7 @@ function TrackRecord() {
     <section
       id="track-record"
       aria-labelledby="track-record-title"
-      className="relative z-10 bg-paper text-ink py-16 md:py-24 lg:py-32 xl:py-36"
+      className="relative z-10 bg-paper text-canvas py-16 md:py-24 lg:py-32 xl:py-36"
     >
       <div className={CONTAINER}>
         <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
@@ -286,13 +258,18 @@ function TrackRecord() {
             <SectionTitle id="track-record-title" title="Track Record" onPaper />
           </Reveal>
           <Reveal delay={60}>
-            <ul className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap md:gap-4">
+            <ul className="grid grid-cols-2 gap-x-6 gap-y-4 sm:flex sm:flex-wrap sm:gap-x-8">
               {LOGOS.map((l) => (
-                <li
-                  key={l.alt}
-                  className="flex h-16 items-center justify-center rounded-xl border border-tan/50 bg-cream px-5 md:h-[72px]"
-                >
-                  <Image src={l.src} alt={l.alt} width={l.w} height={l.h} sizes="170px" className="max-h-8 w-auto max-w-[140px] object-contain md:max-h-9 md:max-w-[150px]" />
+                <li key={l.alt} className="flex h-10 items-center justify-center md:h-11">
+                  <Image
+                    src={l.src}
+                    alt={l.alt}
+                    width={l.w}
+                    height={l.h}
+                    sizes="170px"
+                    style={{ opacity: l.o, maxHeight: l.mh }}
+                    className="max-h-8 w-auto max-w-[140px] object-contain grayscale contrast-75 md:max-h-9 md:max-w-[150px]"
+                  />
                 </li>
               ))}
             </ul>
@@ -302,19 +279,19 @@ function TrackRecord() {
         <div className="mt-12 grid gap-6 lg:grid-cols-3 xl:gap-8">
           {CASES.map((c, i) => (
             <Reveal key={c.company} delay={i * 60}>
-              <article className="flex h-full flex-col rounded-2xl border border-tan/50 bg-cream p-5 md:flex-row md:gap-7 md:p-6 lg:flex-col lg:gap-0 lg:p-7 xl:p-8">
+              <article className="flex h-full flex-col rounded-2xl border border-canvas/15 bg-bone p-5 md:flex-row md:gap-7 md:p-6 lg:flex-col lg:gap-0 lg:p-7 xl:p-8">
                 <div className="md:w-[44%] md:shrink-0 lg:w-full">
                   <VideoTile src={c.video} poster={c.poster} aria={c.aria} aspect={c.aspect} />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="mt-5 font-display font-semibold text-[22px] leading-tight text-ink md:mt-0 lg:mt-5">{c.company}</h3>
-                  <p className="mt-1 text-[15px] text-brown">{c.role}</p>
-                  <p className="mt-5 font-display font-bold text-[clamp(2.25rem,4vw,3.5rem)] leading-none text-magenta tabular-nums tracking-[-0.02em]">
+                  <h3 className="mt-5 font-display font-semibold text-[22px] leading-tight text-canvas md:mt-0 lg:mt-5">{c.company}</h3>
+                  <p className="mt-1 text-[15px] text-canvas/70">{c.role}</p>
+                  <p className="mt-5 font-display font-bold text-[clamp(2.25rem,4vw,3.5rem)] leading-none text-canvas tabular-nums tracking-[-0.02em]">
                     <CountUp to={c.n} />
                     {c.suffix && <span>{c.suffix}</span>}
                   </p>
-                  <p className="mt-1 text-[15px] text-brown">{c.label}</p>
-                  <p className="mt-4 text-base leading-[1.55] text-ink">{c.body}</p>
+                  <p className="mt-1 text-[15px] text-canvas/70">{c.label}</p>
+                  <p className="mt-4 text-base leading-[1.55] text-canvas">{c.body}</p>
                 </div>
               </article>
             </Reveal>
@@ -332,18 +309,18 @@ function TrackRecord() {
                 className="h-12 w-12 shrink-0 rounded-full object-cover sm:h-14 sm:w-14"
               />
               <div>
-                <blockquote className="max-w-[52ch] font-display font-medium text-[clamp(1.375rem,2.4vw,1.625rem)] leading-[1.35] text-ink">
+                <blockquote className="max-w-[52ch] font-display font-medium text-[clamp(1.375rem,2.4vw,1.625rem)] leading-[1.35] text-canvas">
                   What really sets Juan apart is that once he understands the high-level goals and objectives, he
                   immediately breaks them down into a concrete list of tasks and action items to begin moving the
                   project forward. He&apos;s great at bridging the gap between idea and execution.
                 </blockquote>
-                <figcaption className="mt-4 text-[15px] text-ink">
+                <figcaption className="mt-4 text-[15px] text-canvas">
                   Philip Sell, CEO and Co-founder, Metaba.{" "}
                   <a
                     href="https://linkedin.com/in/philipjsell"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="underline underline-offset-4 hover:text-brown"
+                    className="underline underline-offset-4 hover:text-canvas/70"
                   >
                     LinkedIn
                   </a>
@@ -352,7 +329,7 @@ function TrackRecord() {
             </figure>
           </Reveal>
           <Reveal delay={60} className="lg:col-span-3 lg:justify-self-end">
-            <CtaButton />
+            <CtaButton variant="light" />
           </Reveal>
         </div>
       </div>
@@ -515,7 +492,7 @@ function WhatIBuild() {
     <section
       id="what-i-build"
       aria-labelledby="what-i-build-title"
-      className="bg-ink py-16 md:py-24 lg:py-32 xl:py-36"
+      className="bg-canvas py-16 md:py-24 lg:py-32 xl:py-36"
     >
       <div className={CONTAINER}>
         <Reveal>
@@ -525,12 +502,12 @@ function WhatIBuild() {
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-12 xl:gap-8">
           {CAPS.map((c, i) => (
             <Reveal key={c.title} delay={i * 70} className={c.span}>
-              <article className="group flex h-full flex-col rounded-2xl bg-plum p-5 md:p-6 lg:p-7 xl:p-8">
-                <span className="text-mauve transition-colors duration-150 group-hover:text-cream">
+              <article className="flex h-full flex-col rounded-2xl bg-surface p-5 md:p-6 lg:p-7 xl:p-8">
+                <span className="text-bone/70">
                   <Icon kind={c.icon} />
                 </span>
-                <h3 className="mt-4 font-display font-semibold text-[22px] leading-tight text-cream">{c.title}</h3>
-                <p className="mt-2 text-base leading-[1.55] text-mauve">{c.desc}</p>
+                <h3 className="mt-4 font-display font-semibold text-[22px] leading-tight text-bone">{c.title}</h3>
+                <p className="mt-2 text-base leading-[1.55] text-bone/70">{c.desc}</p>
               </article>
             </Reveal>
           ))}
@@ -566,28 +543,26 @@ function OneClient() {
     <section
       id="one-client"
       aria-labelledby="one-client-title"
-      className="relative z-10 bg-paper text-ink py-16 md:py-24 lg:py-32 xl:py-36"
+      className="relative z-10 bg-paper text-canvas py-16 md:py-24 lg:py-32 xl:py-36"
     >
       <div className={CONTAINER}>
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
           <Reveal className="lg:col-span-5">
             <SectionTitle id="one-client-title" title="One Client, Full Focus" onPaper />
-            <p className="mt-6 max-w-[44ch] text-[17px] leading-[1.55] xl:text-lg">
-              I join as your go-to-market operator, on your goals, for as long as the scope says. Not a retainer
-              spread across a roster. One company, and I run its commercial motion with you until the first
-              customers are closed.
+            <p className="mt-6 text-[17px] leading-[1.55] xl:text-lg">
+              One company. Full commercial motion.
             </p>
             <div className="mt-8">
-              <CtaButton />
+              <CtaButton variant="light" />
             </div>
           </Reveal>
           <div className="lg:col-span-6 lg:col-start-7">
             <ul className="flex flex-col gap-4">
               {ONE_CLIENT.map((o, i) => (
                 <Reveal key={o.title} delay={i * 70}>
-                  <li className="rounded-2xl border border-tan/50 bg-cream p-5 md:p-6">
-                    <h3 className="font-display font-semibold text-xl text-ink">{o.title}</h3>
-                    <p className="mt-2 text-base leading-[1.55] text-brown">{o.text}</p>
+                  <li className="rounded-2xl border border-canvas/15 bg-bone p-5 md:p-6">
+                    <h3 className="font-display font-semibold text-xl text-canvas">{o.title}</h3>
+                    <p className="mt-2 text-base leading-[1.55] text-canvas/70">{o.text}</p>
                   </li>
                 </Reveal>
               ))}
@@ -616,40 +591,41 @@ function Team() {
     <section
       id="team"
       aria-labelledby="team-title"
-      className="bg-ink py-16 md:py-24 lg:py-32 xl:py-36"
+      className="bg-canvas py-16 md:py-24 lg:py-32 xl:py-36"
     >
       <div className={CONTAINER}>
         <Reveal className="max-w-[60ch]">
           <SectionTitle id="team-title" title="Team and Connections" />
-          <p className="mt-6 text-[17px] leading-[1.55] xl:text-lg">
-            I do the core work myself. For everything outside my own hands I bring specialists onto the
-            engagement and run them, so you focus on your goals and I take care of fulfillment.
-          </p>
+          <p className="mt-6 text-[17px] leading-[1.55] xl:text-lg">I do the core work.</p>
         </Reveal>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:gap-5">
           {TEAM.map((t, i) => (
             <Reveal key={t.title} delay={i * 50}>
-              <article className="group flex h-full flex-col rounded-2xl border border-plum bg-deep p-5 md:p-6">
-                <span className="text-mauve transition-colors duration-150 group-hover:text-cream">
+              <article className="flex h-full flex-col rounded-2xl border border-surface bg-charcoal p-5 md:p-6">
+                <span className="text-bone/70">
                   <Icon kind={t.icon} />
                 </span>
-                <h3 className="mt-4 font-display font-semibold text-xl leading-tight text-cream">{t.title}</h3>
-                <p className="mt-2 text-[15px] leading-[1.55] text-mauve">{t.text}</p>
+                <h3 className="mt-4 font-display font-semibold text-xl leading-tight text-bone">{t.title}</h3>
+                <p className="mt-2 text-[15px] leading-[1.55] text-bone/70">{t.text}</p>
               </article>
             </Reveal>
           ))}
           <Reveal delay={TEAM.length * 50} className="lg:col-span-2">
-            <article className="flex h-full flex-col justify-center rounded-2xl bg-magenta p-5 md:p-6">
-              <h3 className="font-display font-semibold text-xl leading-tight text-white">
+            <article className="flex h-full flex-col justify-center rounded-2xl bg-surface p-5 md:p-6">
+              <h3 className="font-display font-semibold text-xl leading-tight text-bone">
                 One Operator, One Point of Contact
               </h3>
-              <p className="mt-2 text-[15px] leading-[1.55] text-white/85">
+              <p className="mt-2 text-[15px] leading-[1.55] text-bone/70">
                 You brief me. I scope, staff, and run the work, and the result comes back through one person.
               </p>
             </article>
           </Reveal>
         </div>
+
+        <Reveal delay={(TEAM.length + 1) * 50} className="mt-12">
+          <CtaButton />
+        </Reveal>
       </div>
     </section>
   );
@@ -741,14 +717,14 @@ function CallForm() {
   const field = (name: keyof Errors, label: string, extra: Record<string, string> = {}) => {
     const err = errors[name];
     const cls = [
-      "w-full rounded-xl bg-ink px-3.5 py-3 text-base text-cream h-[52px] md:h-14",
+      "w-full rounded-xl bg-canvas px-3.5 py-3 text-base text-bone h-[52px] md:h-14",
       "border",
-      err ? "border-2 border-cream" : "border-mauve/40",
-      "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream",
+      err ? "border-2 border-bone" : "border-bone/25",
+      "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bone",
     ].join(" ");
     return (
       <div>
-        <label htmlFor={`f-${name}`} className="mb-2 block text-sm font-medium text-cream">
+        <label htmlFor={`f-${name}`} className="mb-2 block text-sm font-medium text-bone">
           {label}
         </label>
         {name === "message" ? (
@@ -778,7 +754,7 @@ function CallForm() {
           />
         )}
         {err && (
-          <p id={`f-${name}-error`} className="mt-2 text-sm text-cream">
+          <p id={`f-${name}-error`} className="mt-2 text-sm text-bone">
             {err}
           </p>
         )}
@@ -788,11 +764,11 @@ function CallForm() {
 
   if (state === "sent") {
     return (
-      <div className="rounded-2xl bg-plum p-7 xl:p-8 min-h-[520px]" aria-live="polite">
-        <h3 ref={headingRef} tabIndex={-1} className="font-display font-semibold text-[26px] text-cream outline-none">
+      <div className="rounded-2xl bg-surface p-7 xl:p-8 min-h-[520px]" aria-live="polite">
+        <h3 ref={headingRef} tabIndex={-1} className="font-display font-semibold text-[26px] text-bone outline-none">
           Received.
         </h3>
-        <p className="mt-4 text-base leading-[1.55] text-cream">
+        <p className="mt-4 text-base leading-[1.55] text-bone">
           I read every request myself and reply within 24 hours to {sentTo}. I take one client at a time, so I
           will tell you plainly whether I have room and whether I am the right fit.
         </p>
@@ -800,7 +776,7 @@ function CallForm() {
           href={LINKEDIN}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-6 inline-block text-base text-mauve underline underline-offset-4 hover:text-cream"
+          className="mt-6 inline-block text-base text-bone/70 underline underline-offset-4 hover:text-bone"
         >
           LinkedIn
         </a>
@@ -815,7 +791,7 @@ function CallForm() {
       noValidate
       onSubmit={onSubmit}
       aria-busy={state === "sending"}
-      className="rounded-2xl bg-plum p-6 md:p-7 xl:p-8"
+      className="rounded-2xl bg-surface p-6 md:p-7 xl:p-8"
     >
       <div className="flex flex-col gap-4">
         {field("name", "Name", { type: "text", autoComplete: "name", maxLength: "120" })}
@@ -831,23 +807,21 @@ function CallForm() {
         type="submit"
         disabled={state === "sending"}
         className={[
-          "mt-6 h-14 w-full rounded-lg bg-magenta text-base font-semibold text-white",
-          "transition-colors duration-150 hover:bg-[#ae5a7c] active:translate-y-px disabled:pointer-events-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-magenta",
-          state === "sending" ? "" : "cta-breathe",
+          "mt-6 h-14 w-full rounded-xl bg-sage text-base font-semibold text-canvas",
+          "transition-[background-color,transform] duration-150 ease-out hover:bg-sage-hover active:scale-[0.97] disabled:pointer-events-none",
         ].join(" ")}
       >
         {state === "sending" ? "Sending" : "Request a Call"}
       </button>
-      <p className="mt-4 text-[15px] text-mauve">
+      <p className="mt-4 text-[15px] text-bone/70">
         Or email{" "}
-        <a href={`mailto:${EMAIL}`} className="underline underline-offset-4 hover:text-cream">
+        <a href={`mailto:${EMAIL}`} className="underline underline-offset-4 hover:text-bone">
           {EMAIL}
         </a>
         .
       </p>
       {state === "failed" && (
-        <p className="mt-3 text-[15px] text-cream" aria-live="polite">
+        <p className="mt-3 text-[15px] text-bone" aria-live="polite">
           That did not send. Email me at{" "}
           <a href={mailto} className="underline underline-offset-4">
             {EMAIL}
@@ -864,7 +838,7 @@ function RequestACall() {
     <section
       id="request-a-call"
       aria-labelledby="request-a-call-title"
-      className="bg-ink py-16 md:py-24 lg:py-32 xl:py-36"
+      className="bg-canvas py-16 md:py-24 lg:py-32 xl:py-36"
     >
       <div className={CONTAINER}>
         <Reveal className="md:max-w-[60ch]">
@@ -877,36 +851,31 @@ function RequestACall() {
               {STEPS.map((s, i) => (
                 <Reveal key={s.label} delay={i * 60}>
                   <li className="flex gap-6">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-plum font-display font-semibold text-base text-cream">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface font-display font-semibold text-base text-bone">
                       {i + 1}
                     </span>
                     <div>
-                      <h3 className="font-display font-semibold text-xl text-cream">{s.label}</h3>
-                      <p className="mt-1 text-base leading-[1.55] text-mauve">{s.text}</p>
+                      <h3 className="font-display font-semibold text-xl text-bone">{s.label}</h3>
+                      <p className="mt-1 text-base leading-[1.55] text-bone/70">{s.text}</p>
                     </div>
                   </li>
                 </Reveal>
               ))}
             </ol>
-            <Reveal delay={240} className="mt-12 max-w-[44ch] text-[15px] leading-[1.6] text-mauve">
+            <Reveal delay={240} className="mt-12 max-w-[44ch] text-[15px] leading-[1.6] text-bone/70">
               <p>
                 Osmotic Ventures LLC is a California limited liability company, active with the California Secretary
-                of State, based in Los Angeles. I sign NDAs, consulting agreements, and invoices as the LLC. Business
-                banking and invoicing are in place.
+                of State, based in Los Angeles. I sign NDAs, consulting agreements, and invoices as the LLC.
               </p>
               <p className="mt-3">
                 Juan Arenas Martin, Owner. Pharmacologist, USC, Magna Cum Laude.
               </p>
               <p className="mt-3">
-                <a href={`mailto:${EMAIL}`} className="hover:text-cream hover:underline underline-offset-4">
-                  {EMAIL}
-                </a>{" "}
-                /{" "}
                 <a
                   href={LINKEDIN}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-cream hover:underline underline-offset-4"
+                  className="hover:text-bone hover:underline underline-offset-4"
                 >
                   LinkedIn
                 </a>{" "}
@@ -915,7 +884,7 @@ function RequestACall() {
                   href="https://juanarenas.bio"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-cream hover:underline underline-offset-4"
+                  className="hover:text-bone hover:underline underline-offset-4"
                 >
                   juanarenas.bio
                 </a>
@@ -933,18 +902,21 @@ function RequestACall() {
 
 function SiteFooter() {
   return (
-    <footer className="border-t border-plum bg-deep pb-10 pt-12 text-sm text-mauve md:pb-12 md:pt-16">
-      <div className={`${CONTAINER} flex flex-col gap-4 md:flex-row md:items-center md:justify-between`}>
-        <p>&copy; {new Date().getFullYear()} Osmotic Ventures LLC. All rights reserved.</p>
+    <footer className="border-t border-surface bg-charcoal pb-10 pt-12 text-sm text-bone/70 md:pb-12 md:pt-16">
+      <div className={`${CONTAINER} flex flex-col gap-6 md:flex-row md:items-center md:justify-between`}>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-5">
+          <Logo size="sm" />
+          <p>&copy; {new Date().getFullYear()} Osmotic Ventures LLC. All rights reserved.</p>
+        </div>
         <div className="flex gap-6">
-          <a href={`mailto:${EMAIL}`} className="hover:text-cream hover:underline underline-offset-4">
+          <a href={`mailto:${EMAIL}`} className="hover:text-bone hover:underline underline-offset-4">
             {EMAIL}
           </a>
           <a
             href={LINKEDIN}
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-cream hover:underline underline-offset-4"
+            className="hover:text-bone hover:underline underline-offset-4"
           >
             LinkedIn
           </a>
@@ -982,9 +954,10 @@ function MobileBar() {
   const show = heroGone && !formNear && !typing;
   return (
     <div
-      className={`fixed inset-x-0 bottom-0 z-40 border-t border-plum bg-ink/95 px-5 pt-3 md:hidden transition-transform duration-300 ${show ? "translate-y-0" : "translate-y-full"}`}
+      className={`fixed inset-x-0 bottom-0 z-40 border-t border-surface bg-canvas/95 px-5 pt-3 md:hidden transition-transform duration-200 ease-out ${show ? "translate-y-0" : "translate-y-full"}`}
       style={{ paddingBottom: "calc(12px + env(safe-area-inset-bottom))" }}
       aria-hidden={!show}
+      inert={!show}
     >
       <CtaButton full />
     </div>
