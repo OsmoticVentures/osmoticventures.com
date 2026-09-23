@@ -62,15 +62,30 @@ function CtaButton({
   );
 }
 
+/* Lockup measured off the wordmark's own font-size (Bricolage Grotesque
+   regular, cap height 0.66em, line-height 1.15em):
+   - block height (cap-top of OSMOTIC to baseline of VENTURES) = capHeight + lineHeight = 1.81em
+   - O height = block height x 1.40 = 2.534em, centered on that block
+   - gap (O's right edge to the wordmark's first glyph) = one cap height = 0.66em,
+     reduced by the glyph's own left side bearing (0.062em) so the visual gap lands exact
+   - py-2 -my-2 grows the tap target to 44px+ tall without adding visible space
+     (padding grows the hit area, the matching negative margin cancels it in flow) */
 function Logo({ size = "md", priority = false }: { size?: "md" | "sm"; priority?: boolean }) {
-  const oHeight = size === "md" ? "h-9 md:h-11" : "h-6 md:h-7";
-  const text = size === "md" ? "text-sm md:text-base" : "text-[10px] md:text-xs";
+  const text = size === "md" ? "text-sm md:text-base" : "text-xs md:text-[13px]";
   return (
-    <a href="#" aria-label="Osmotic Ventures" className="inline-flex items-center gap-2 md:gap-2.5">
-      <Image src="/ov-mark.png" alt="" width={153} height={564} aria-hidden priority={priority} className={`w-auto ${oHeight}`} />
-      <span className="flex flex-col justify-center leading-[0.95]">
-        <span className={`font-display font-normal uppercase tracking-[0.2em] text-bone ${text}`}>Osmotic</span>
-        <span className={`font-display font-normal uppercase tracking-[0.2em] text-bone ${text}`}>Ventures</span>
+    <a href="#" aria-label="Osmotic Ventures" className="inline-flex items-center py-2 -my-2">
+      <Image
+        src="/ov-mark.png"
+        alt=""
+        width={153}
+        height={564}
+        aria-hidden
+        priority={priority}
+        className={`w-auto h-[2.534em] mr-[0.598em] ${text}`}
+      />
+      <span className={`ov-wordmark block font-display font-normal uppercase tracking-[0.2em] leading-[1.15] text-white ${text}`}>
+        <span className="block">Osmotic</span>
+        <span className="block">Ventures</span>
       </span>
     </a>
   );
@@ -904,7 +919,7 @@ function SiteFooter() {
   return (
     <footer className="border-t border-surface bg-charcoal pb-10 pt-12 text-sm text-bone/70 md:pb-12 md:pt-16">
       <div className={`${CONTAINER} flex flex-col gap-6 md:flex-row md:items-center md:justify-between`}>
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-5">
+        <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-5">
           <Logo size="sm" />
           <p>&copy; {new Date().getFullYear()} Osmotic Ventures LLC. All rights reserved.</p>
         </div>

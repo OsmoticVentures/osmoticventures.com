@@ -55,6 +55,16 @@ body {
   border-radius: 2px;
 }
 
+/* Trims line-box leading to the cap-top / alphabetic-baseline box, so a
+   sibling mark can be vertically centered on the wordmark's visual block
+   instead of its full line-height box. Where unsupported, items-center on
+   the full line box keeps the ink within about 0.2px of center. */
+.ov-wordmark {
+  text-box: trim-both cap alphabetic;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
 @keyframes rise {
   from {
     opacity: 0;
