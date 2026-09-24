@@ -100,31 +100,27 @@ function useAutoplay(mount: boolean) {
 
 function Hero() {
   return (
-    <section
-      aria-labelledby="hero-title"
-      className="relative isolate z-20 flex min-h-[88svh] flex-col bg-canvas lg:min-h-[80svh]"
-    >
-      <header className={`${CONTAINER} flex h-16 items-center justify-end lg:h-[72px]`}>
-        <Logo priority />
-      </header>
+    <section aria-labelledby="hero-title" className="relative isolate z-20 bg-canvas">
+      <div className={CONTAINER}>
+        <header className="flex h-16 items-center justify-end lg:h-[72px]">
+          <Logo priority />
+        </header>
 
-      <div className={`${CONTAINER} flex flex-1 items-center pb-14 pt-10 md:pt-14`}>
-        <div className="grid w-full gap-10 md:grid-cols-12 md:gap-6 lg:gap-8">
+        <div className="grid gap-10 pt-8 pb-16 md:grid-cols-12 md:gap-6 md:pt-10 md:pb-20 lg:gap-8 lg:pt-12 lg:pb-20 xl:pt-14 xl:pb-24">
           <div className="md:col-span-8 flex flex-col justify-center">
             <h1
               id="hero-title"
-              className="rise font-display font-bold text-[8.4vw] leading-[1.05] tracking-[-0.02em] md:text-[4.6vw] xl:text-[3.9rem]"
+              className="rise w-fit font-display font-bold text-[8.4vw] leading-[1.05] tracking-[-0.02em] md:text-[5.6vw] lg:text-[5.2vw] xl:text-[4.25rem]"
             >
               <span className="block whitespace-nowrap">Scientific Marketing</span>
-              <span className="block text-[0.42em] font-medium leading-[1.6] tracking-normal text-bone/70">to</span>
-              <span className="block whitespace-nowrap">Build Biotech Brands</span>
+              <span className="-mt-[0.22em] block text-center text-[max(0.4em,16px)] font-medium leading-[1] tracking-normal text-bone/70">to</span>
+              <span className="mt-[0.14em] block whitespace-nowrap">Build Biotech Brands</span>
             </h1>
             <p
               style={{ "--d": "120ms" } as React.CSSProperties}
-              className="rise mt-7 text-[17px] leading-[1.55] xl:text-lg"
+              className="rise mt-7 text-pretty text-[17px] leading-[1.55] md:mt-8 lg:mt-10 lg:text-xl"
             >
-              I&apos;m a pharmacologist who went beyond the bench
-              <br className="hidden sm:block" /> to build the brands that are changing the way we heal.
+              I&apos;m a pharmacologist who went beyond the bench to build the brands that are changing the way we heal.
             </p>
           </div>
 
@@ -190,7 +186,7 @@ const CASES = [
       { n: 100, suffix: "", label: "Attendees per event" },
       { n: 30, prefix: "+", suffix: "%", label: "Sponsor revenue growth" },
     ],
-    body: "A biotech non-profit in Los Angeles. Our content and a stronger LinkedIn presence brought in more inbound leads. I personally managed the enterprise accounts and KOLs, connected our content to new partners, and nurtured those leads into a measurable increase in revenue, with Amgen and USC Keck among our sponsors.",
+    body: "A biotech non-profit in Los Angeles. We built a stronger LinkedIn presence. Our content started bringing in inbound leads. I personally managed the enterprise accounts and KOLs, connected our content to new partners, and nurtured those leads into a measurable increase in revenue, with Amgen and USC Keck among our sponsors.",
     video: "/video/bcla.mp4",
     poster: "/img/poster-bcla.jpg",
     focus: "50% 12%",
@@ -225,7 +221,7 @@ const LOGOS = [
   { src: "/img/logos/usc-brain.png", alt: "USC Center for Personalized Brain Health", w: 1421, h: 212, o: 0.85 },
   { src: "/img/logos/metaba.svg", alt: "Metaba", w: 330, h: 64, o: 0.55 },
   { src: "/img/logos/biotech-connection.png", alt: "Biotech Connection LA", w: 751, h: 156, o: 1, mh: 44 },
-  { src: "/img/logos/superbiome.png", alt: "Superbiome", w: 1715, h: 386, o: 0.38 },
+  { src: "/img/logos/superbiome.png", alt: "Superbiome", w: 1715, h: 386, o: 0.38, mh: 28 },
 ];
 
 function VideoTile({
@@ -286,9 +282,9 @@ function TrackRecord() {
             <SectionTitle id="track-record-title" title="Track Record" onPaper />
           </Reveal>
           <Reveal delay={60}>
-            <ul className="grid grid-cols-2 gap-x-6 gap-y-4 sm:flex sm:flex-wrap sm:gap-x-8">
+            <ul className="grid grid-cols-2 gap-x-6 gap-y-4 sm:flex sm:flex-wrap sm:gap-x-8 lg:flex-nowrap lg:gap-x-6 xl:gap-x-8">
               {LOGOS.map((l) => (
-                <li key={l.alt} className="flex h-10 items-center justify-center md:h-11">
+                <li key={l.alt} className="flex h-10 items-center justify-start sm:justify-center md:h-11 lg:h-8 xl:h-11">
                   <Image
                     src={l.src}
                     alt={l.alt}
@@ -296,7 +292,7 @@ function TrackRecord() {
                     height={l.h}
                     sizes="170px"
                     style={{ opacity: l.o, maxHeight: l.mh }}
-                    className="max-h-8 w-auto max-w-[140px] object-contain grayscale contrast-75 md:max-h-9 md:max-w-[150px]"
+                    className="max-h-8 w-auto max-w-[140px] object-contain grayscale contrast-75 md:max-h-9 md:max-w-[150px] lg:max-h-8 lg:max-w-[136px] xl:max-h-9 xl:max-w-[150px]"
                   />
                 </li>
               ))}
