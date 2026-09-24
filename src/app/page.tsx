@@ -389,7 +389,8 @@ type IconKind =
   | "users"
   | "handshake"
   | "flask"
-  | "board"
+  | "shield"
+  | "landmark"
   | "play";
 
 function Icon({ kind }: { kind: IconKind }) {
@@ -500,11 +501,18 @@ function Icon({ kind }: { kind: IconKind }) {
           <path d="M8.5 2h7M7 16h10" />
         </svg>
       );
-    case "board":
+    case "shield":
       return (
         <svg {...common}>
-          <rect x="3" y="3" width="18" height="18" rx="2" />
-          <path d="M8 7v7M12 7v4M16 7v9" />
+          <path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z" />
+          <path d="M9 12l2 2 4-4" />
+        </svg>
+      );
+    case "landmark":
+      return (
+        <svg {...common}>
+          <path d="M3 21h18M4 10h16M12 3l8 5H4z" />
+          <path d="M6 10v8M10 10v8M14 10v8M18 10v8" />
         </svg>
       );
   }
@@ -602,9 +610,19 @@ function OneClient() {
 /* ---------- 5. Team and connections ---------- */
 
 const TEAM: { icon: IconKind; title: string; text?: string }[] = [
-  { icon: "flask", title: "Scientific Marketing Strategy" },
-  { icon: "board", title: "Project Management and Cross-Functional Team Leadership" },
-  { icon: "chip", title: "AI and ML Development" },
+  { icon: "flask", title: "Scientific Marketing Strategy", text: "Strategy and project management to ensure results." },
+  { icon: "chip", title: "AI and ML Development", text: "I automate entire workflows, with 86 custom agents in my stack today." },
+  {
+    icon: "shield",
+    title: "FDA Quality Assurance",
+    text: "Experts who control every claim, the most nuanced part of keeping marketing compliant.",
+  },
+  { icon: "search", title: "AI Search and Google SEO", text: "A specialized team of AI search optimizers and Google SEO experts." },
+  {
+    icon: "landmark",
+    title: "Reimbursement Strategy",
+    text: "A senior go-to-market strategist for institutional reimbursement: insurance and Medicare.",
+  },
   {
     icon: "users",
     title: "UGC Content Creators",
