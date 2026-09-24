@@ -25,9 +25,9 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://osmoticventures.com"),
-  title: "Osmotic Ventures, Go-to-Market for Scientific Companies",
+  title: "Osmotic Ventures, Brand and Marketing for Biotech Startups",
   description:
-    "Go-to-market, marketing, and sales motion for biotech, pharma, diagnostics, and science-first brands. Owned and run by Juan Arenas Martin. One client at a time. Reply within 24 hours.",
+    "Brand, marketing, and investor materials for biotech startups. Owned and run by Juan Arenas Martin, USC pharmacologist. One client at a time.",
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -37,9 +37,9 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
-    title: "Osmotic Ventures, Go-to-Market for Scientific Companies",
+    title: "Osmotic Ventures, Brand and Marketing for Biotech Startups",
     description:
-      "Go-to-market, marketing, and sales motion for biotech, pharma, diagnostics, and science-first brands. Owned and run by Juan Arenas Martin. One client at a time.",
+      "Brand, marketing, and investor materials for biotech startups. Owned and run by Juan Arenas Martin, USC pharmacologist. One client at a time.",
     url: "https://osmoticventures.com",
     siteName: "Osmotic Ventures",
     type: "website",
@@ -47,9 +47,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Osmotic Ventures, Go-to-Market for Scientific Companies",
+    title: "Osmotic Ventures, Brand and Marketing for Biotech Startups",
     description:
-      "Go-to-market, marketing, and sales motion for biotech, pharma, diagnostics, and science-first brands. Owned and run by Juan Arenas Martin. One client at a time.",
+      "Brand, marketing, and investor materials for biotech startups. Owned and run by Juan Arenas Martin, USC pharmacologist. One client at a time.",
     images: ["/img/og-card.png"],
   },
 };

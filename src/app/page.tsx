@@ -26,7 +26,6 @@ export default function Page() {
         <RequestACall />
       </main>
       <SiteFooter />
-      <MobileBar />
     </>
   );
 }
@@ -145,13 +144,13 @@ function Hero() {
               id="hero-title"
               className="rise font-display font-bold text-[clamp(2.5rem,6vw,4.5rem)] leading-[1.02] tracking-[-0.02em] max-w-[14ch]"
             >
-              Go-to-Market for Scientific Companies
+              Brand and Marketing for Biotech Startups
             </h1>
             <p
               style={{ "--d": "120ms" } as React.CSSProperties}
               className="rise mt-6 text-[17px] leading-[1.55] xl:text-lg"
             >
-              Plan, materials, marketing, sales motion.
+              USC pharmacologist. Investor-ready brands.
             </p>
             <div
               style={{ "--d": "200ms" } as React.CSSProperties}
@@ -190,48 +189,50 @@ function Hero() {
 
 /* ---------- 2. Track record (paper) ---------- */
 
+const USC = {
+  company: "USC Center for Personalized Brain Health",
+  role: "Marketing and Social Strategy, 1 year 1 month",
+  stats: [
+    { n: 3, suffix: "x", label: "Total audience in 8 months" },
+    { n: 93000, suffix: "", label: "Newsletter subscribers" },
+    { n: 1000, suffix: "+", label: "Patients and caregivers" },
+  ],
+  body: [
+    "An Alzheimer's lab and prevention clinic. I turned its research into plain language for patients and caregivers, across YouTube, LinkedIn, Instagram, email, and a docu-series, every piece reviewed before it posted.",
+  ],
+  video: "/video/cpbh.mp4",
+  poster: "/img/poster-cpbh.jpg",
+  aria: "Project video, USC Center for Personalized Brain Health",
+};
+
 const CASES = [
   {
     company: "Metaba Health",
     role: "Founding Go-To-Market Operator, 1 year 2 months",
     n: 50,
     suffix: "+",
-    label: "High-intent leads engaged",
-    body: "A 0-to-1 longevity-metabolomics diagnostics startup. I built the investor deck, the investor website, and the full commercial plan, then cold-called dermatologists and clinic decision-makers across Los Angeles and closed the first paying clients on a pilot program.",
+    label: "Clinic leads engaged, from zero brand",
+    body: "I built the investor deck and investor website for a 0-to-1 diagnostics startup, then closed its first paying clients.",
     video: "/video/metaba.mp4",
-    aspect: "aspect-[16/9] lg:aspect-[4/3]",
     poster: "/img/poster-metaba.jpg",
     aria: "Project video, Metaba",
   },
   {
     company: "Biotech Connection LA",
     role: "Business Developer, 1 year 8 months",
-    n: 200,
-    suffix: "+",
-    label: "Biotech and pharma accounts owned",
-    body: "Cold contact to close, on a CRM I built, with 20+ KOLs. I brought Amgen and USC Keck onto the sponsor list, grew annual sponsor revenue 30%, and closed deals up to $20k for a non-profit.",
+    n: 100,
+    suffix: "",
+    label: "Attendees per event, filled from cold outreach",
+    body: "I owned 200+ biotech and pharma accounts and brought Amgen and USC Keck on as event sponsors.",
     video: "/video/bcla.mp4",
-    aspect: "aspect-[3/4] lg:aspect-[4/3]",
     poster: "/img/poster-bcla.jpg",
     aria: "Project video, Biotech Connection LA",
-  },
-  {
-    company: "USC Center for Personalized Brain Health",
-    role: "Marketing and Social Strategy, 1 year 1 month",
-    n: 93000,
-    suffix: "",
-    label: "Newsletter subscribers",
-    body: "An Alzheimer's lab and prevention clinic. I ran YouTube, LinkedIn, Facebook, Instagram, email, and a long-form docu-series, all HIPAA-compliant, tripled the total audience in 8 months, and launched a Spanish-language newsletter that added 50% more recipients.",
-    video: "/video/cpbh.mp4",
-    aspect: "aspect-[4/3]",
-    poster: "/img/poster-cpbh.jpg",
-    aria: "Project video, USC Center for Personalized Brain Health",
   },
 ];
 
 const LOGOS = [
-  { src: "/img/logos/metaba.svg", alt: "Metaba", w: 330, h: 64, o: 0.55 },
   { src: "/img/logos/usc-brain.png", alt: "USC Center for Personalized Brain Health", w: 1421, h: 212, o: 0.85 },
+  { src: "/img/logos/metaba.svg", alt: "Metaba", w: 330, h: 64, o: 0.55 },
   { src: "/img/logos/biotech-connection.png", alt: "Biotech Connection LA", w: 751, h: 156, o: 1, mh: 44 },
   { src: "/img/logos/superbiome.png", alt: "Superbiome", w: 1715, h: 386, o: 0.38 },
 ];
@@ -291,43 +292,69 @@ function TrackRecord() {
           </Reveal>
         </div>
 
-        <div className="mt-12 grid gap-6 lg:grid-cols-3 xl:gap-8">
+        <Reveal className="mt-12">
+          <article className="grid gap-6 rounded-2xl border border-canvas/15 bg-bone p-5 md:p-7 lg:grid-cols-12 lg:gap-10 lg:p-10">
+            <div className="lg:col-span-6">
+              <VideoTile src={USC.video} poster={USC.poster} aria={USC.aria} aspect="aspect-[4/3]" />
+            </div>
+            <div className="min-w-0 lg:col-span-6">
+              <h3 className="font-display font-semibold text-[clamp(1.5rem,2.4vw,2rem)] leading-tight text-canvas">
+                {USC.company}
+              </h3>
+              <p className="mt-1 text-[15px] text-canvas/70">{USC.role}</p>
+              <dl className="mt-6 grid grid-cols-3 gap-4 border-y border-canvas/15 py-5">
+                {USC.stats.map((st) => (
+                  <div key={st.label}>
+                    <dd className="font-display font-bold text-[clamp(1.75rem,3.2vw,2.75rem)] leading-none text-canvas tabular-nums tracking-[-0.02em]">
+                      <CountUp to={st.n} />
+                      {st.suffix && <span>{st.suffix}</span>}
+                    </dd>
+                    <dt className="mt-2 text-[14px] leading-snug text-canvas/70">{st.label}</dt>
+                  </div>
+                ))}
+              </dl>
+              {USC.body.map((b) => (
+                <p key={b.slice(0, 20)} className="mt-5 text-base leading-[1.6] text-canvas">
+                  {b}
+                </p>
+              ))}
+            </div>
+          </article>
+        </Reveal>
+
+        <div className="mt-6 grid gap-6 md:grid-cols-2 xl:gap-8">
           {CASES.map((c, i) => (
             <Reveal key={c.company} delay={i * 60}>
-              <article className="flex h-full flex-col rounded-2xl border border-canvas/15 bg-bone p-5 md:flex-row md:gap-7 md:p-6 lg:flex-col lg:gap-0 lg:p-7 xl:p-8">
-                <div className="md:w-[44%] md:shrink-0 lg:w-full">
-                  <VideoTile src={c.video} poster={c.poster} aria={c.aria} aspect={c.aspect} />
-                </div>
-                <div className="min-w-0">
-                  <h3 className="mt-5 font-display font-semibold text-[22px] leading-tight text-canvas md:mt-0 lg:mt-5">{c.company}</h3>
-                  <p className="mt-1 text-[15px] text-canvas/70">{c.role}</p>
-                  <p className="mt-5 font-display font-bold text-[clamp(2.25rem,4vw,3.5rem)] leading-none text-canvas tabular-nums tracking-[-0.02em]">
-                    <CountUp to={c.n} />
-                    {c.suffix && <span>{c.suffix}</span>}
-                  </p>
-                  <p className="mt-1 text-[15px] text-canvas/70">{c.label}</p>
-                  <p className="mt-4 text-base leading-[1.55] text-canvas">{c.body}</p>
-                </div>
+              <article className="flex h-full flex-col rounded-2xl border border-canvas/15 bg-bone p-5 md:p-6 lg:p-7 xl:p-8">
+                <VideoTile src={c.video} poster={c.poster} aria={c.aria} aspect="aspect-[16/9]" />
+                <h3 className="mt-5 font-display font-semibold text-[22px] leading-tight text-canvas">{c.company}</h3>
+                <p className="mt-1 text-[15px] text-canvas/70">{c.role}</p>
+                <p className="mt-5 font-display font-bold text-[clamp(2.25rem,4vw,3.5rem)] leading-none text-canvas tabular-nums tracking-[-0.02em]">
+                  <CountUp to={c.n} />
+                  {c.suffix && <span>{c.suffix}</span>}
+                </p>
+                <p className="mt-1 text-[15px] text-canvas/70">{c.label}</p>
+                <p className="mt-4 text-base leading-[1.55] text-canvas">{c.body}</p>
               </article>
             </Reveal>
           ))}
         </div>
 
         <div className="mt-12 grid gap-8 lg:grid-cols-12 lg:items-end">
-          <Reveal className="lg:col-span-9">
-            <figure className="flex gap-4 sm:gap-6">
+          <Reveal className="lg:col-span-12">
+            <figure className="flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-10">
               <Image
                 src="/img/phil-sell-metaba.png"
                 alt="Philip Sell"
-                width={56}
-                height={56}
-                className="h-12 w-12 shrink-0 rounded-full object-cover sm:h-14 sm:w-14"
+                width={224}
+                height={224}
+                className="h-48 w-48 shrink-0 rounded-full object-cover sm:h-56 sm:w-56"
               />
               <div>
                 <blockquote className="max-w-[52ch] font-display font-medium text-[clamp(1.375rem,2.4vw,1.625rem)] leading-[1.35] text-canvas">
-                  What really sets Juan apart is that once he understands the high-level goals and objectives, he
+                  &ldquo;What really sets Juan apart is that once he understands the high-level goals and objectives, he
                   immediately breaks them down into a concrete list of tasks and action items to begin moving the
-                  project forward. He&apos;s great at bridging the gap between idea and execution.
+                  project forward. He&apos;s great at bridging the gap between idea and execution.&rdquo;
                 </blockquote>
                 <figcaption className="mt-4 text-[15px] text-canvas">
                   Philip Sell, CEO and Co-founder, Metaba.{" "}
@@ -342,9 +369,6 @@ function TrackRecord() {
                 </figcaption>
               </div>
             </figure>
-          </Reveal>
-          <Reveal delay={60} className="lg:col-span-3 lg:justify-self-end">
-            <CtaButton variant="light" />
           </Reveal>
         </div>
       </div>
@@ -471,34 +495,34 @@ function Icon({ kind }: { kind: IconKind }) {
 
 const CAPS: { icon: IconKind; title: string; desc: string; span: string }[] = [
   {
-    icon: "map",
-    title: "Go-to-Market Plan",
-    desc: "Who buys, why now, what it costs to reach them, and what I do first. Strip away the noise to the few channels that convert.",
+    icon: "megaphone",
+    title: "Founder Voice on LinkedIn",
+    desc: "Posts in your founders' voice, from results you can publish.",
     span: "lg:col-span-4",
   },
   {
     icon: "doc",
     title: "Investor Materials",
-    desc: "The deck and the investor site, written from your data and your science, in plain language an investor reads to the end.",
+    desc: "Deck, one-pager, and investor site, ready before the raise.",
     span: "lg:col-span-4",
   },
   {
-    icon: "phone",
-    title: "Sales Motion, Cold to Close",
-    desc: "Cold outreach, route-planned visits, a CRM that fits the deal, and the first closes done by me, not handed off.",
+    icon: "clapper",
+    title: "Film and Video",
+    desc: "A hero film and short clips with your scientists.",
     span: "lg:col-span-4",
   },
   {
-    icon: "arc",
-    title: "Marketing and Community, HIPAA-Compliant",
-    desc: "Paid social, email, content, and a community, run compliant when the audience is patients or clinicians. Bilingual, English and Spanish, when the audience is.",
-    span: "lg:col-span-7",
+    icon: "users",
+    title: "Patient Community",
+    desc: "Social and sign-ups for patients, reviewed before every post.",
+    span: "lg:col-span-6",
   },
   {
-    icon: "nodes",
-    title: "AI and Automation",
-    desc: "Lead handling, follow-up, and admin built to run without you, with AI where it earns its place.",
-    span: "lg:col-span-5",
+    icon: "search",
+    title: "Search and AI Search",
+    desc: "Show up on Google, LinkedIn, and AI answers.",
+    span: "lg:col-span-6",
   },
 ];
 
@@ -517,20 +541,17 @@ function WhatIBuild() {
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-12 xl:gap-8">
           {CAPS.map((c, i) => (
             <Reveal key={c.title} delay={i * 70} className={c.span}>
-              <article className="flex h-full flex-col rounded-2xl bg-surface p-5 md:p-6 lg:p-7 xl:p-8">
+              <article className="flex h-full flex-col rounded-2xl bg-surface p-6 md:p-7 lg:p-8">
                 <span className="text-bone/70">
                   <Icon kind={c.icon} />
                 </span>
-                <h3 className="mt-4 font-display font-semibold text-[22px] leading-tight text-bone">{c.title}</h3>
+                <h3 className="mt-5 font-display font-semibold text-[22px] leading-tight text-bone">{c.title}</h3>
                 <p className="mt-2 text-base leading-[1.55] text-bone/70">{c.desc}</p>
               </article>
             </Reveal>
           ))}
         </div>
 
-        <Reveal delay={60} className="mt-12">
-          <CtaButton />
-        </Reveal>
       </div>
     </section>
   );
@@ -539,18 +560,9 @@ function WhatIBuild() {
 /* ---------- 4. One client ---------- */
 
 const ONE_CLIENT = [
-  {
-    title: "All of My Time",
-    text: "I take one client at a time, and whoever I work with gets all of it.",
-  },
-  {
-    title: "Done by Me",
-    text: "The plan, the materials, the outreach, and the first closes are my own work, not handed off.",
-  },
-  {
-    title: "A Straight Answer on Room",
-    text: "If I am mid-engagement when you write, I will say so and tell you when I have room.",
-  },
+  { title: "All of My Time", text: "You are the only company I work for." },
+  { title: "Done by Me", text: "The plan, the content, and the outreach are my own work." },
+  { title: "A Straight Answer", text: "If I am booked, I will tell you when I am free." },
 ];
 
 function OneClient() {
@@ -563,26 +575,18 @@ function OneClient() {
       <div className={CONTAINER}>
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
           <Reveal className="lg:col-span-5">
-            <SectionTitle id="one-client-title" title="One Client, Full Focus" onPaper />
-            <p className="mt-6 text-[17px] leading-[1.55] xl:text-lg">
-              One company. Full commercial motion.
-            </p>
-            <div className="mt-8">
-              <CtaButton variant="light" />
-            </div>
+            <SectionTitle id="one-client-title" title="One Client at a Time" onPaper />
           </Reveal>
-          <div className="lg:col-span-6 lg:col-start-7">
-            <ul className="flex flex-col gap-4">
-              {ONE_CLIENT.map((o, i) => (
-                <Reveal key={o.title} delay={i * 70}>
-                  <li className="rounded-2xl border border-canvas/15 bg-bone p-5 md:p-6">
-                    <h3 className="font-display font-semibold text-xl text-canvas">{o.title}</h3>
-                    <p className="mt-2 text-base leading-[1.55] text-canvas/70">{o.text}</p>
-                  </li>
-                </Reveal>
-              ))}
-            </ul>
-          </div>
+          <ul className="lg:col-span-6 lg:col-start-7">
+            {ONE_CLIENT.map((o, i) => (
+              <Reveal key={o.title} delay={i * 70}>
+                <li className="border-t border-canvas/15 py-6 last:border-b">
+                  <h3 className="font-display font-semibold text-xl text-canvas">{o.title}</h3>
+                  <p className="mt-1 text-[17px] leading-[1.55] text-canvas/70">{o.text}</p>
+                </li>
+              </Reveal>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
@@ -591,14 +595,14 @@ function OneClient() {
 
 /* ---------- 5. Team and connections ---------- */
 
-const TEAM: { icon: IconKind; title: string; text: string }[] = [
-  { icon: "chip", title: "AI and ML Development", text: "Model and software builds beyond what I write myself." },
-  { icon: "search", title: "SEO and GEO", text: "Google and AI-search positioning." },
-  { icon: "megaphone", title: "Meta Ads", text: "Paid acquisition on Facebook and Instagram, run by a specialist." },
-  { icon: "play", title: "TikTok Ads", text: "Short-form paid reach." },
-  { icon: "users", title: "Commission-Only UGC Creators", text: "Creators paid on results, not on a fixed fee." },
-  { icon: "clapper", title: "Los Angeles Video Production", text: "A production and editing team for the films, ads, and series that need a crew." },
-  { icon: "handshake", title: "Investor Introductions", text: "Angels, VCs, and investors in biotech and pharma." },
+const TEAM: { icon: IconKind; title: string }[] = [
+  { icon: "clapper", title: "Video Production" },
+  { icon: "handshake", title: "Investor Introductions" },
+  { icon: "search", title: "SEO and GEO" },
+  { icon: "megaphone", title: "Meta Ads" },
+  { icon: "play", title: "TikTok Ads" },
+  { icon: "users", title: "UGC Creators" },
+  { icon: "chip", title: "AI and ML Development" },
 ];
 
 function Team() {
@@ -609,38 +613,24 @@ function Team() {
       className="bg-canvas py-16 md:py-24 lg:py-32 xl:py-36"
     >
       <div className={CONTAINER}>
-        <Reveal className="max-w-[60ch]">
-          <SectionTitle id="team-title" title="Team and Connections" />
-          <p className="mt-6 text-[17px] leading-[1.55] xl:text-lg">I do the core work.</p>
-        </Reveal>
-
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:gap-5">
-          {TEAM.map((t, i) => (
-            <Reveal key={t.title} delay={i * 50}>
-              <article className="flex h-full flex-col rounded-2xl border border-surface bg-charcoal p-5 md:p-6">
-                <span className="text-bone/70">
-                  <Icon kind={t.icon} />
-                </span>
-                <h3 className="mt-4 font-display font-semibold text-xl leading-tight text-bone">{t.title}</h3>
-                <p className="mt-2 text-[15px] leading-[1.55] text-bone/70">{t.text}</p>
-              </article>
-            </Reveal>
-          ))}
-          <Reveal delay={TEAM.length * 50} className="lg:col-span-2">
-            <article className="flex h-full flex-col justify-center rounded-2xl bg-surface p-5 md:p-6">
-              <h3 className="font-display font-semibold text-xl leading-tight text-bone">
-                One Operator, One Point of Contact
-              </h3>
-              <p className="mt-2 text-[15px] leading-[1.55] text-bone/70">
-                You brief me. I scope, staff, and run the work, and the result comes back through one person.
-              </p>
-            </article>
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
+          <Reveal className="lg:col-span-5">
+            <SectionTitle id="team-title" title="Team and Connections" />
+            <p className="mt-6 text-[17px] leading-[1.55] xl:text-lg">One point of contact: me.</p>
           </Reveal>
+          <ul className="grid sm:grid-cols-2 sm:gap-x-8 lg:col-span-6 lg:col-start-7">
+            {TEAM.map((t, i) => (
+              <Reveal key={t.title} delay={i * 40}>
+                <li className="flex items-center gap-4 border-t border-surface py-5">
+                  <span className="text-bone/60">
+                    <Icon kind={t.icon} />
+                  </span>
+                  <span className="font-display font-semibold text-lg text-bone">{t.title}</span>
+                </li>
+              </Reveal>
+            ))}
+          </ul>
         </div>
-
-        <Reveal delay={(TEAM.length + 1) * 50} className="mt-12">
-          <CtaButton />
-        </Reveal>
       </div>
     </section>
   );
@@ -648,27 +638,13 @@ function Team() {
 
 /* ---------- 6. Request a call ---------- */
 
-const STEPS = [
-  { label: "Request a Call", text: "Fill in the form. I read it myself and reply within 24 hours." },
-  {
-    label: "Scope Conversation",
-    text: "A call on what you are building, what you need, and whether I am the right fit. Visible goals, written down.",
-  },
-  { label: "Written Agreement", text: "A consulting agreement under Osmotic Ventures LLC, with a mutual NDA when you want one." },
-  {
-    label: "The Work",
-    text: "I join as your go-to-market operator, on your goals, for as long as the scope says.",
-  },
-];
-
-type Errors = Partial<Record<"name" | "email" | "company" | "message", string>>;
+type Errors = Partial<Record<"name" | "email" | "message", string>>;
 
 function validate(f: HTMLFormElement): Errors {
   const v = (n: string) => (f.elements.namedItem(n) as HTMLInputElement | HTMLTextAreaElement | null)?.value.trim() ?? "";
   const e: Errors = {};
   if (!v("name")) e.name = "Add your name";
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v("email"))) e.email = "Use a valid email address";
-  if (!v("company")) e.company = "Add your company";
   if (!v("message")) e.message = "A sentence or two is enough";
   return e;
 }
@@ -686,12 +662,12 @@ function CallForm() {
     if (state === "sent") headingRef.current?.focus();
   }, [state]);
 
-  const onBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  // Errors appear only after a submit attempt, and each one clears as soon as its field is fixed.
+  const onInput = (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const f = formRef.current;
-    if (!f) return;
-    const all = validate(f);
-    const k = e.target.name as keyof Errors;
-    setErrors((prev) => ({ ...prev, [k]: all[k] }));
+    const k = e.currentTarget.name as keyof Errors;
+    if (!f || !errors[k]) return;
+    setErrors((prev) => ({ ...prev, [k]: validate(f)[k] }));
   };
 
   const onFocus = (e: React.FocusEvent<HTMLElement>) => {
@@ -732,16 +708,23 @@ function CallForm() {
   const field = (name: keyof Errors, label: string, extra: Record<string, string> = {}) => {
     const err = errors[name];
     const cls = [
-      "w-full rounded-xl bg-canvas px-3.5 py-3 text-base text-bone h-[52px] md:h-14",
+      "w-full rounded-xl bg-canvas px-4 py-3 text-base text-bone h-14",
       "border",
-      err ? "border-2 border-bone" : "border-bone/25",
+      err ? "border-sage" : "border-bone/15",
       "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bone",
     ].join(" ");
     return (
       <div>
-        <label htmlFor={`f-${name}`} className="mb-2 block text-sm font-medium text-bone">
-          {label}
-        </label>
+        <div className="mb-2 flex items-baseline justify-between gap-4">
+          <label htmlFor={`f-${name}`} className="text-sm font-medium text-bone">
+            {label}
+          </label>
+          {err && (
+            <span id={`f-${name}-error`} className="text-sm text-sage">
+              {err}
+            </span>
+          )}
+        </div>
         {name === "message" ? (
           <textarea
             id={`f-${name}`}
@@ -749,7 +732,7 @@ function CallForm() {
             rows={4}
             maxLength={1000}
             required
-            onBlur={onBlur}
+            onInput={onInput}
             onFocus={onFocus}
             aria-invalid={!!err}
             aria-describedby={err ? `f-${name}-error` : undefined}
@@ -760,7 +743,7 @@ function CallForm() {
             id={`f-${name}`}
             name={name}
             required
-            onBlur={onBlur}
+            onInput={onInput}
             onFocus={onFocus}
             aria-invalid={!!err}
             aria-describedby={err ? `f-${name}-error` : undefined}
@@ -768,33 +751,17 @@ function CallForm() {
             {...extra}
           />
         )}
-        {err && (
-          <p id={`f-${name}-error`} className="mt-2 text-sm text-bone">
-            {err}
-          </p>
-        )}
       </div>
     );
   };
 
   if (state === "sent") {
     return (
-      <div className="rounded-2xl bg-surface p-7 xl:p-8 min-h-[520px]" aria-live="polite">
+      <div className="rounded-2xl bg-surface p-7 xl:p-10" aria-live="polite">
         <h3 ref={headingRef} tabIndex={-1} className="font-display font-semibold text-[26px] text-bone outline-none">
           Received.
         </h3>
-        <p className="mt-4 text-base leading-[1.55] text-bone">
-          I read every request myself and reply within 24 hours to {sentTo}. I take one client at a time, so I
-          will tell you plainly whether I have room and whether I am the right fit.
-        </p>
-        <a
-          href={LINKEDIN}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-6 inline-block text-base text-bone/70 underline underline-offset-4 hover:text-bone"
-        >
-          LinkedIn
-        </a>
+        <p className="mt-4 text-base leading-[1.55] text-bone">I will reply to {sentTo} within 24 hours.</p>
       </div>
     );
   }
@@ -806,13 +773,12 @@ function CallForm() {
       noValidate
       onSubmit={onSubmit}
       aria-busy={state === "sending"}
-      className="rounded-2xl bg-surface p-6 md:p-7 xl:p-8"
+      className="rounded-2xl bg-surface p-6 md:p-8 xl:p-10"
     >
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-6">
         {field("name", "Name", { type: "text", autoComplete: "name", maxLength: "120" })}
-        {field("email", "Work Email", { type: "email", inputMode: "email", autoComplete: "email" })}
-        {field("company", "Company", { type: "text", autoComplete: "organization", maxLength: "160" })}
-        {field("message", "What You Are Building or Need")}
+        {field("email", "Email", { type: "email", inputMode: "email", autoComplete: "email" })}
+        {field("message", "What You Need")}
       </div>
       <div className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
         <label htmlFor="f-website">Website</label>
@@ -822,26 +788,19 @@ function CallForm() {
         type="submit"
         disabled={state === "sending"}
         className={[
-          "mt-6 h-14 w-full rounded-xl bg-sage text-base font-semibold text-canvas",
+          "mt-8 h-14 w-full rounded-xl bg-sage text-base font-semibold text-canvas",
           "transition-[background-color,transform] duration-150 ease-out hover:bg-sage-hover active:scale-[0.97] disabled:pointer-events-none",
         ].join(" ")}
       >
         {state === "sending" ? "Sending" : "Request a Call"}
       </button>
-      <p className="mt-4 text-[15px] text-bone/70">
-        Or email{" "}
-        <a href={`mailto:${EMAIL}`} className="underline underline-offset-4 hover:text-bone">
-          {EMAIL}
-        </a>
-        .
-      </p>
       {state === "failed" && (
-        <p className="mt-3 text-[15px] text-bone" aria-live="polite">
+        <p className="mt-4 text-[15px] text-bone" aria-live="polite">
           That did not send. Email me at{" "}
           <a href={mailto} className="underline underline-offset-4">
             {EMAIL}
-          </a>{" "}
-          and I will reply within 24 hours.
+          </a>
+          .
         </p>
       )}
     </form>
@@ -856,57 +815,18 @@ function RequestACall() {
       className="bg-canvas py-16 md:py-24 lg:py-32 xl:py-36"
     >
       <div className={CONTAINER}>
-        <Reveal className="md:max-w-[60ch]">
-          <SectionTitle id="request-a-call-title" title="Request a Call" />
-        </Reveal>
-
-        <div className="mt-12 grid gap-10 lg:grid-cols-12 lg:gap-8">
-          <div className="order-2 lg:order-1 lg:col-span-5">
-            <ol className="flex flex-col gap-6">
-              {STEPS.map((s, i) => (
-                <Reveal key={s.label} delay={i * 60}>
-                  <li className="flex gap-6">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface font-display font-semibold text-base text-bone">
-                      {i + 1}
-                    </span>
-                    <div>
-                      <h3 className="font-display font-semibold text-xl text-bone">{s.label}</h3>
-                      <p className="mt-1 text-base leading-[1.55] text-bone/70">{s.text}</p>
-                    </div>
-                  </li>
-                </Reveal>
-              ))}
-            </ol>
-            <Reveal delay={240} className="mt-12 max-w-[44ch] text-[15px] leading-[1.6] text-bone/70">
-              <p>
-                Osmotic Ventures LLC is a California limited liability company, active with the California Secretary
-                of State, based in Los Angeles. I sign NDAs, consulting agreements, and invoices as the LLC.
-              </p>
-              <p className="mt-3">
-                Juan Arenas Martin, Owner. Pharmacologist, USC, Magna Cum Laude.
-              </p>
-              <p className="mt-3">
-                <a
-                  href={LINKEDIN}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-bone hover:underline underline-offset-4"
-                >
-                  LinkedIn
-                </a>{" "}
-                /{" "}
-                <a
-                  href="https://juanarenas.bio"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-bone hover:underline underline-offset-4"
-                >
-                  juanarenas.bio
-                </a>
-              </p>
-            </Reveal>
-          </div>
-          <Reveal delay={60} className="order-1 lg:order-2 lg:col-span-6 lg:col-start-7">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
+          <Reveal className="lg:col-span-5">
+            <SectionTitle id="request-a-call-title" title="Request a Call" />
+            <p className="mt-6 text-[17px] leading-[1.55] xl:text-lg">I reply within 24 hours.</p>
+            <p className="mt-8 text-[15px] leading-[1.6] text-bone/70">
+              Or email{" "}
+              <a href={`mailto:${EMAIL}`} className="underline underline-offset-4 hover:text-bone">
+                {EMAIL}
+              </a>
+            </p>
+          </Reveal>
+          <Reveal delay={60} className="lg:col-span-6 lg:col-start-7">
             <CallForm />
           </Reveal>
         </div>
@@ -921,7 +841,7 @@ function SiteFooter() {
       <div className={`${CONTAINER} flex flex-col gap-6 md:flex-row md:items-center md:justify-between`}>
         <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-5">
           <Logo size="sm" />
-          <p>&copy; {new Date().getFullYear()} Osmotic Ventures LLC. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Osmotic Ventures LLC, Los Angeles. Juan Arenas Martin, Owner.</p>
         </div>
         <div className="flex gap-6">
           <a href={`mailto:${EMAIL}`} className="hover:text-bone hover:underline underline-offset-4">
@@ -938,43 +858,5 @@ function SiteFooter() {
         </div>
       </div>
     </footer>
-  );
-}
-
-/* ---------- sticky mobile bar ---------- */
-
-function MobileBar() {
-  const [heroGone, setHeroGone] = useState(false);
-  const [formNear, setFormNear] = useState(false);
-  const [typing, setTyping] = useState(false);
-  useEffect(() => {
-    const cta = document.getElementById("hero-cta");
-    const form = document.getElementById("request-a-call");
-    if (!cta || !form) return;
-    const a = new IntersectionObserver(([e]) => setHeroGone(!e.isIntersecting && e.boundingClientRect.top < 0));
-    const b = new IntersectionObserver(([e]) => setFormNear(e.isIntersecting), { threshold: 0.05 });
-    a.observe(cta);
-    b.observe(form);
-    const onIn = (e: FocusEvent) => setTyping(form.contains(e.target as Node));
-    const onOut = () => setTyping(false);
-    document.addEventListener("focusin", onIn);
-    document.addEventListener("focusout", onOut);
-    return () => {
-      a.disconnect();
-      b.disconnect();
-      document.removeEventListener("focusin", onIn);
-      document.removeEventListener("focusout", onOut);
-    };
-  }, []);
-  const show = heroGone && !formNear && !typing;
-  return (
-    <div
-      className={`fixed inset-x-0 bottom-0 z-40 border-t border-surface bg-canvas/95 px-5 pt-3 md:hidden transition-transform duration-200 ease-out ${show ? "translate-y-0" : "translate-y-full"}`}
-      style={{ paddingBottom: "calc(12px + env(safe-area-inset-bottom))" }}
-      aria-hidden={!show}
-      inert={!show}
-    >
-      <CtaButton full />
-    </div>
   );
 }

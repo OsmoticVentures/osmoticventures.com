@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     company: clean(raw.company, MAX.company),
     message: clean(raw.message, MAX.message),
   };
-  if (!p.name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email) || !p.company || !p.message) {
+  if (!p.name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email) || !p.message) {
     return NextResponse.json({ ok: false, error: "invalid" }, { status: 422 });
   }
   const startedAt = Number(raw.t);
@@ -59,7 +59,7 @@ export async function POST(req: Request) {
       to: TO,
       replyTo: `"${p.name.replace(/"/g, "")}" <${p.email}>`,
       subject: `Call request from ${p.name}${p.company ? `, ${p.company}` : ""}`,
-      text: `${p.message}\n\n${p.name}\n${p.email}\n${p.company}`,
+      text: `${p.message}\n\n${p.name}\n${p.email}${p.company ? `\n${p.company}` : ""}`,
     });
     return NextResponse.json({ ok: true });
   } catch (err) {
