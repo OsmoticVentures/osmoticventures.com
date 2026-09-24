@@ -215,6 +215,7 @@ const CASES = [
     body: "I built the investor deck and investor website for a 0-to-1 diagnostics startup, then closed its first paying clients.",
     video: "/video/metaba.mp4",
     poster: "/img/poster-metaba.jpg",
+    focus: "0% 50%",
     aria: "Project video, Metaba",
   },
   {
@@ -226,6 +227,7 @@ const CASES = [
     body: "I owned 200+ biotech and pharma accounts and brought Amgen and USC Keck on as event sponsors.",
     video: "/video/bcla.mp4",
     poster: "/img/poster-bcla.jpg",
+    focus: "50% 12%",
     aria: "Project video, Biotech Connection LA",
   },
 ];
@@ -237,16 +239,37 @@ const LOGOS = [
   { src: "/img/logos/superbiome.png", alt: "Superbiome", w: 1715, h: 386, o: 0.38 },
 ];
 
-function VideoTile({ src, poster, aria, aspect }: { src: string; poster: string; aria: string; aspect: string }) {
+function VideoTile({
+  src,
+  poster,
+  aria,
+  aspect,
+  focus = "50% 50%",
+}: {
+  src: string;
+  poster: string;
+  aria: string;
+  aspect: string;
+  /** object-position for both the poster and the video, to frame the part that matters */
+  focus?: string;
+}) {
   const mount = useSyncExternalStore(subscribeMotion, wantsVideo, () => false);
   const ref = useAutoplay(mount);
   return (
     <div className={`relative ${aspect} w-full overflow-hidden rounded-xl bg-charcoal`}>
-      <Image src={poster} alt="" fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover" />
+      <Image
+        src={poster}
+        alt=""
+        fill
+        sizes="(min-width: 768px) 33vw, 100vw"
+        className="object-cover"
+        style={{ objectPosition: focus }}
+      />
       {mount && (
         <video
           ref={ref}
           className="absolute inset-0 h-full w-full object-cover"
+          style={{ objectPosition: focus }}
           src={src}
           poster={poster}
           autoPlay
@@ -326,7 +349,7 @@ function TrackRecord() {
           {CASES.map((c, i) => (
             <Reveal key={c.company} delay={i * 60}>
               <article className="flex h-full flex-col rounded-2xl border border-canvas/15 bg-bone p-5 md:p-6 lg:p-7 xl:p-8">
-                <VideoTile src={c.video} poster={c.poster} aria={c.aria} aspect="aspect-[16/9]" />
+                <VideoTile src={c.video} poster={c.poster} aria={c.aria} aspect="aspect-[3/2]" focus={c.focus} />
                 <h3 className="mt-5 font-display font-semibold text-[22px] leading-tight text-canvas">{c.company}</h3>
                 <p className="mt-1 text-[15px] text-canvas/70">{c.role}</p>
                 <p className="mt-5 font-display font-bold text-[clamp(2.25rem,4vw,3.5rem)] leading-none text-canvas tabular-nums tracking-[-0.02em]">
@@ -390,6 +413,8 @@ type IconKind =
   | "clapper"
   | "users"
   | "handshake"
+  | "flask"
+  | "board"
   | "play";
 
 function Icon({ kind }: { kind: IconKind }) {
@@ -486,8 +511,25 @@ function Icon({ kind }: { kind: IconKind }) {
     case "handshake":
       return (
         <svg {...common}>
-          <path d="M2.5 9l4-3.5 5 1.5 4-1.5 6 4v7.5l-4 3-5-3.5-2 1.5-3-2.5" />
-          <path d="M11.5 7l-3.5 3.5a1.5 1.5 0 0 0 2 2l3-2.5" />
+          <path d="m11 17 2 2a1 1 0 1 0 3-3" />
+          <path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4" />
+          <path d="m21 3 1 11h-2" />
+          <path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3" />
+          <path d="M3 4h8" />
+        </svg>
+      );
+    case "flask":
+      return (
+        <svg {...common}>
+          <path d="M10 2v7.5a2 2 0 0 1-.2.9L4.7 20.5a1 1 0 0 0 .9 1.5h12.8a1 1 0 0 0 .9-1.5l-5.1-10.1a2 2 0 0 1-.2-.9V2" />
+          <path d="M8.5 2h7M7 16h10" />
+        </svg>
+      );
+    case "board":
+      return (
+        <svg {...common}>
+          <rect x="3" y="3" width="18" height="18" rx="2" />
+          <path d="M8 7v7M12 7v4M16 7v9" />
         </svg>
       );
   }
@@ -595,14 +637,17 @@ function OneClient() {
 
 /* ---------- 5. Team and connections ---------- */
 
-const TEAM: { icon: IconKind; title: string }[] = [
-  { icon: "clapper", title: "Video Production" },
-  { icon: "handshake", title: "Investor Introductions" },
-  { icon: "search", title: "SEO and GEO" },
-  { icon: "megaphone", title: "Meta Ads" },
-  { icon: "play", title: "TikTok Ads" },
-  { icon: "users", title: "UGC Creators" },
+const TEAM: { icon: IconKind; title: string; text?: string }[] = [
+  { icon: "flask", title: "Scientific Marketing Strategy" },
+  { icon: "board", title: "Project Management and Cross-Functional Team Leadership" },
   { icon: "chip", title: "AI and ML Development" },
+  {
+    icon: "users",
+    title: "UGC Content Creators",
+    text: "A commission-only army of video creators making videos for your brand.",
+  },
+  { icon: "clapper", title: "Video Production", text: "A Los Angeles crew that works in Hollywood." },
+  { icon: "handshake", title: "Investor Connections", text: "Introductions at the Pasadena Angels and tech VCs." },
 ];
 
 function Team() {
@@ -616,16 +661,19 @@ function Team() {
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
           <Reveal className="lg:col-span-5">
             <SectionTitle id="team-title" title="Team and Connections" />
-            <p className="mt-6 text-[17px] leading-[1.55] xl:text-lg">One point of contact: me.</p>
+            <p className="mt-6 text-[17px] leading-[1.55] xl:text-lg">I do the work. You review.</p>
           </Reveal>
           <ul className="grid sm:grid-cols-2 sm:gap-x-8 lg:col-span-6 lg:col-start-7">
             {TEAM.map((t, i) => (
               <Reveal key={t.title} delay={i * 40}>
-                <li className="flex items-center gap-4 border-t border-surface py-5">
-                  <span className="text-bone/60">
+                <li className="flex h-full items-start gap-4 border-t border-surface py-5">
+                  <span className="mt-0.5 shrink-0 text-bone/60">
                     <Icon kind={t.icon} />
                   </span>
-                  <span className="font-display font-semibold text-lg text-bone">{t.title}</span>
+                  <div>
+                    <span className="block font-display font-semibold text-lg leading-snug text-bone">{t.title}</span>
+                    {t.text && <p className="mt-1 text-[15px] leading-[1.5] text-bone/70">{t.text}</p>}
+                  </div>
                 </li>
               </Reveal>
             ))}
