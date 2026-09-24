@@ -8,6 +8,10 @@ const FIELD_SALES_OS = process.env.FIELD_SALES_OS_ORIGIN ?? "https://field-sales
 
 const nextConfig: NextConfig = {
   deploymentId: process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 32),
+  // Metri Bio client pages live at /metribio/{strategy,sow,why}; the bare path opens Strategy.
+  async redirects() {
+    return [{ source: "/metribio", destination: "/metribio/strategy", permanent: false }];
+  },
   async rewrites() {
     return [
       { source: "/nb", destination: `${FIELD_SALES_OS}/nb` },
