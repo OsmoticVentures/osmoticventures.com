@@ -144,13 +144,14 @@ function Hero() {
               id="hero-title"
               className="rise font-display font-bold text-[clamp(2.5rem,6vw,4.5rem)] leading-[1.02] tracking-[-0.02em] max-w-[14ch]"
             >
-              Brand and Marketing for Biotech Startups
+              Scientific Marketing That Builds Biotech Brands
             </h1>
             <p
               style={{ "--d": "120ms" } as React.CSSProperties}
               className="rise mt-6 text-[17px] leading-[1.55] xl:text-lg"
             >
-              USC pharmacologist. Investor-ready brands.
+              I&apos;m a pharmacologist who went beyond the bench
+              <br className="hidden sm:block" /> to build the brands that are changing the world.
             </p>
             <div
               style={{ "--d": "200ms" } as React.CSSProperties}
@@ -209,10 +210,12 @@ const CASES = [
   {
     company: "Metaba Health",
     role: "Founding Go-To-Market Operator, 1 year 2 months",
-    n: 50,
-    suffix: "+",
-    label: "Clinic leads engaged, from zero brand",
-    body: "I built the investor deck and investor website for a 0-to-1 diagnostics startup, then closed its first paying clients.",
+    stats: [
+      { text: "0 to 1", label: "Idea to first paying clients" },
+      { n: 50, suffix: "+", label: "Clinic leads engaged" },
+      { n: 2, suffix: "", label: "Investor deck and investor site" },
+    ],
+    body: "A metabolomics diagnostics startup. I built its investor deck and investor website, and called on dermatologists and clinics across Los Angeles with no brand behind me.",
     video: "/video/metaba.mp4",
     poster: "/img/poster-metaba.jpg",
     focus: "0% 50%",
@@ -221,16 +224,40 @@ const CASES = [
   {
     company: "Biotech Connection LA",
     role: "Business Developer, 1 year 8 months",
-    n: 100,
-    suffix: "",
-    label: "Attendees per event, filled from cold outreach",
-    body: "I owned 200+ biotech and pharma accounts and brought Amgen and USC Keck on as event sponsors.",
+    stats: [
+      { n: 20, suffix: "+", label: "KOLs managed" },
+      { n: 100, suffix: "", label: "Attendees per event" },
+      { n: 30, suffix: "%", label: "Sponsor revenue growth" },
+    ],
+    body: "A biotech non-profit in Los Angeles. I owned 200+ biotech and pharma accounts and brought Amgen and USC Keck on as sponsors.",
     video: "/video/bcla.mp4",
     poster: "/img/poster-bcla.jpg",
     focus: "50% 12%",
     aria: "Project video, Biotech Connection LA",
   },
 ];
+
+type Stat = { n?: number; text?: string; suffix?: string; label: string };
+
+function Stats({ stats }: { stats: Stat[] }) {
+  return (
+    <div className="mt-6 grid grid-cols-3 gap-4 border-y border-canvas/15 py-5">
+      {stats.map((st) => (
+        <div key={st.label}>
+          <p className="whitespace-nowrap font-display font-bold text-[clamp(1.5rem,2.8vw,2.5rem)] leading-none text-canvas tabular-nums tracking-[-0.02em]">
+            {st.text ?? (
+              <>
+                <CountUp to={st.n ?? 0} />
+                {st.suffix && <span>{st.suffix}</span>}
+              </>
+            )}
+          </p>
+          <p className="mt-2 text-[14px] leading-snug text-canvas/70">{st.label}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 const LOGOS = [
   { src: "/img/logos/usc-brain.png", alt: "USC Center for Personalized Brain Health", w: 1421, h: 212, o: 0.85 },
@@ -325,17 +352,7 @@ function TrackRecord() {
                 {USC.company}
               </h3>
               <p className="mt-1 text-[15px] text-canvas/70">{USC.role}</p>
-              <dl className="mt-6 grid grid-cols-3 gap-4 border-y border-canvas/15 py-5">
-                {USC.stats.map((st) => (
-                  <div key={st.label}>
-                    <dd className="font-display font-bold text-[clamp(1.75rem,3.2vw,2.75rem)] leading-none text-canvas tabular-nums tracking-[-0.02em]">
-                      <CountUp to={st.n} />
-                      {st.suffix && <span>{st.suffix}</span>}
-                    </dd>
-                    <dt className="mt-2 text-[14px] leading-snug text-canvas/70">{st.label}</dt>
-                  </div>
-                ))}
-              </dl>
+              <Stats stats={USC.stats} />
               {USC.body.map((b) => (
                 <p key={b.slice(0, 20)} className="mt-5 text-base leading-[1.6] text-canvas">
                   {b}
@@ -352,12 +369,8 @@ function TrackRecord() {
                 <VideoTile src={c.video} poster={c.poster} aria={c.aria} aspect="aspect-[3/2]" focus={c.focus} />
                 <h3 className="mt-5 font-display font-semibold text-[22px] leading-tight text-canvas">{c.company}</h3>
                 <p className="mt-1 text-[15px] text-canvas/70">{c.role}</p>
-                <p className="mt-5 font-display font-bold text-[clamp(2.25rem,4vw,3.5rem)] leading-none text-canvas tabular-nums tracking-[-0.02em]">
-                  <CountUp to={c.n} />
-                  {c.suffix && <span>{c.suffix}</span>}
-                </p>
-                <p className="mt-1 text-[15px] text-canvas/70">{c.label}</p>
-                <p className="mt-4 text-base leading-[1.55] text-canvas">{c.body}</p>
+                <Stats stats={c.stats} />
+                <p className="mt-5 text-base leading-[1.55] text-canvas">{c.body}</p>
               </article>
             </Reveal>
           ))}
@@ -601,34 +614,23 @@ function WhatIBuild() {
 
 /* ---------- 4. One client ---------- */
 
-const ONE_CLIENT = [
-  { title: "All of My Time", text: "You are the only company I work for." },
-  { title: "Done by Me", text: "The plan, the content, and the outreach are my own work." },
-  { title: "A Straight Answer", text: "If I am booked, I will tell you when I am free." },
-];
-
 function OneClient() {
   return (
     <section
-      id="one-client"
-      aria-labelledby="one-client-title"
+      id="one-project"
+      aria-labelledby="one-project-title"
       className="relative z-10 bg-paper text-canvas py-16 md:py-24 lg:py-32 xl:py-36"
     >
       <div className={CONTAINER}>
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
+        <div className="grid gap-8 lg:grid-cols-12 lg:gap-8">
           <Reveal className="lg:col-span-5">
-            <SectionTitle id="one-client-title" title="One Client at a Time" onPaper />
+            <SectionTitle id="one-project-title" title="One Project at a Time" onPaper />
           </Reveal>
-          <ul className="lg:col-span-6 lg:col-start-7">
-            {ONE_CLIENT.map((o, i) => (
-              <Reveal key={o.title} delay={i * 70}>
-                <li className="border-t border-canvas/15 py-6 last:border-b">
-                  <h3 className="font-display font-semibold text-xl text-canvas">{o.title}</h3>
-                  <p className="mt-1 text-[17px] leading-[1.55] text-canvas/70">{o.text}</p>
-                </li>
-              </Reveal>
-            ))}
-          </ul>
+          <Reveal delay={70} className="lg:col-span-6 lg:col-start-7">
+            <p className="font-display font-medium text-[clamp(1.375rem,2.4vw,1.75rem)] leading-[1.35] text-canvas">
+              I take on one project at a time. I think about it day and night, so all of my focus goes to you.
+            </p>
+          </Reveal>
         </div>
       </div>
     </section>
@@ -661,7 +663,6 @@ function Team() {
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
           <Reveal className="lg:col-span-5">
             <SectionTitle id="team-title" title="Team and Connections" />
-            <p className="mt-6 text-[17px] leading-[1.55] xl:text-lg">I do the work. You review.</p>
           </Reveal>
           <ul className="grid sm:grid-cols-2 sm:gap-x-8 lg:col-span-6 lg:col-start-7">
             {TEAM.map((t, i) => (

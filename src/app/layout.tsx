@@ -25,9 +25,9 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://osmoticventures.com"),
-  title: "Osmotic Ventures, Brand and Marketing for Biotech Startups",
+  title: "Osmotic Ventures, Scientific Marketing That Builds Biotech Brands",
   description:
-    "Brand, marketing, and investor materials for biotech startups. Owned and run by Juan Arenas Martin, USC pharmacologist. One client at a time.",
+    "Scientific marketing, brand, and investor materials for biotech companies. Owned and run by Juan Arenas Martin, a USC-trained pharmacologist. One project at a time.",
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -37,9 +37,9 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
-    title: "Osmotic Ventures, Brand and Marketing for Biotech Startups",
+    title: "Osmotic Ventures, Scientific Marketing That Builds Biotech Brands",
     description:
-      "Brand, marketing, and investor materials for biotech startups. Owned and run by Juan Arenas Martin, USC pharmacologist. One client at a time.",
+      "Scientific marketing, brand, and investor materials for biotech companies. Owned and run by Juan Arenas Martin, a USC-trained pharmacologist. One project at a time.",
     url: "https://osmoticventures.com",
     siteName: "Osmotic Ventures",
     type: "website",
@@ -47,9 +47,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Osmotic Ventures, Brand and Marketing for Biotech Startups",
+    title: "Osmotic Ventures, Scientific Marketing That Builds Biotech Brands",
     description:
-      "Brand, marketing, and investor materials for biotech startups. Owned and run by Juan Arenas Martin, USC pharmacologist. One client at a time.",
+      "Scientific marketing, brand, and investor materials for biotech companies. Owned and run by Juan Arenas Martin, a USC-trained pharmacologist. One project at a time.",
     images: ["/img/og-card.png"],
   },
 };
