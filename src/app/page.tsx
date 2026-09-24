@@ -32,35 +32,6 @@ export default function Page() {
 
 /* ---------- shared ---------- */
 
-function CtaButton({
-  href = "#request-a-call",
-  full = false,
-  id,
-  variant = "dark",
-}: {
-  href?: string;
-  full?: boolean;
-  id?: string;
-  /** Section the button sits on: "dark" (canvas ground) gets the sage fill, "light" (paper ground) gets a canvas fill. */
-  variant?: "dark" | "light";
-}) {
-  const onDark = variant === "dark";
-  return (
-    <a
-      id={id}
-      href={href}
-      className={[
-        "inline-flex h-14 items-center justify-center whitespace-nowrap rounded-xl px-6 font-semibold text-base",
-        onDark ? "bg-sage text-canvas hover:bg-sage-hover" : "bg-canvas text-bone hover:bg-canvas-hover",
-        "transition-[background-color,transform] duration-150 ease-out active:scale-[0.97]",
-        full ? "w-full" : "w-full sm:w-auto",
-      ].join(" ")}
-    >
-      Request a Call
-    </a>
-  );
-}
-
 /* Lockup measured off the wordmark's own font-size (Bricolage Grotesque
    regular, cap height 0.66em, line-height 1.15em):
    - block height (cap-top of OSMOTIC to baseline of VENTURES) = capHeight + lineHeight = 1.81em
@@ -133,51 +104,41 @@ function Hero() {
       aria-labelledby="hero-title"
       className="relative isolate z-20 flex min-h-[88svh] flex-col bg-canvas lg:min-h-[80svh]"
     >
-      <header className={`${CONTAINER} flex h-16 items-center lg:h-[72px]`}>
+      <header className={`${CONTAINER} flex h-16 items-center justify-end lg:h-[72px]`}>
         <Logo priority />
       </header>
 
       <div className={`${CONTAINER} flex flex-1 items-center pb-14 pt-10 md:pt-14`}>
         <div className="grid w-full gap-10 md:grid-cols-12 md:gap-6 lg:gap-8">
-          <div className="md:col-span-7 flex flex-col justify-end">
+          <div className="md:col-span-8 flex flex-col justify-center">
             <h1
               id="hero-title"
-              className="rise font-display font-bold text-[clamp(2.5rem,6vw,4.5rem)] leading-[1.02] tracking-[-0.02em] max-w-[14ch]"
+              className="rise font-display font-bold text-[8.4vw] leading-[1.05] tracking-[-0.02em] md:text-[4.6vw] xl:text-[3.9rem]"
             >
-              Scientific Marketing That Builds Biotech Brands
+              <span className="block whitespace-nowrap">Scientific Marketing</span>
+              <span className="block text-[0.42em] font-medium leading-[1.6] tracking-normal text-bone/70">to</span>
+              <span className="block whitespace-nowrap">Build Biotech Brands</span>
             </h1>
             <p
               style={{ "--d": "120ms" } as React.CSSProperties}
-              className="rise mt-6 text-[17px] leading-[1.55] xl:text-lg"
+              className="rise mt-7 text-[17px] leading-[1.55] xl:text-lg"
             >
               I&apos;m a pharmacologist who went beyond the bench
-              <br className="hidden sm:block" /> to build the brands that are changing the world.
+              <br className="hidden sm:block" /> to build the brands that are changing the way we heal.
             </p>
-            <div
-              style={{ "--d": "200ms" } as React.CSSProperties}
-              className="rise mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6"
-            >
-              <CtaButton id="hero-cta" />
-              <a
-                href="#track-record"
-                className="text-base font-medium text-bone underline underline-offset-4 decoration-bone/50 hover:decoration-bone"
-              >
-                See the Work
-              </a>
-            </div>
           </div>
 
           <div className="md:col-span-4 md:col-start-9 flex items-center md:justify-end">
             <div style={{ "--d": "90ms" } as React.CSSProperties} className="rise w-full">
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-surface bg-charcoal md:aspect-[4/5]">
+              {/* The photo is 4:5. 8:9 anchored to the bottom trims exactly the top tenth. */}
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-surface bg-charcoal md:aspect-[8/9]">
                 <Image
                   src="/img/juan-usc.png"
                   alt="Juan Arenas Martin"
                   fill
                   priority
                   sizes="(min-width: 768px) 32vw, 100vw"
-                  className="object-cover"
-                  style={{ objectPosition: "center 22%" }}
+                  className="object-cover object-[center_28%] md:object-bottom"
                 />
               </div>
             </div>
