@@ -213,9 +213,9 @@ const CASES = [
     stats: [
       { text: "0 to 1", label: "Idea to first paying clients" },
       { n: 50, suffix: "+", label: "Clinic leads engaged" },
-      { n: 2, suffix: "", label: "Investor deck and investor site" },
+      { n: 3000, suffix: "+", label: "Biomarkers per sample" },
     ],
-    body: "A metabolomics diagnostics startup. I built its investor deck and investor website, and called on dermatologists and clinics across Los Angeles with no brand behind me.",
+    body: "A metabolomics diagnostics startup using LC/MS technology and proprietary biomarkers to detect accurate recovery signals. I built its investor deck and investor website, and called on dermatologists and clinics across Los Angeles, building a brand that facilitated early traction.",
     video: "/video/metaba.mp4",
     poster: "/img/poster-metaba.jpg",
     focus: "0% 50%",
@@ -225,11 +225,11 @@ const CASES = [
     company: "Biotech Connection LA",
     role: "Business Developer, 1 year 8 months",
     stats: [
-      { n: 20, suffix: "+", label: "KOLs managed" },
+      { n: 20, suffix: "", label: "KOLs managed" },
       { n: 100, suffix: "", label: "Attendees per event" },
-      { n: 30, suffix: "%", label: "Sponsor revenue growth" },
+      { n: 30, prefix: "+", suffix: "%", label: "Sponsor revenue growth" },
     ],
-    body: "A biotech non-profit in Los Angeles. I owned 200+ biotech and pharma accounts and brought Amgen and USC Keck on as sponsors.",
+    body: "A biotech non-profit in Los Angeles. Our content and a stronger LinkedIn presence brought in more inbound leads. I personally managed the enterprise accounts and KOLs, connected our content to new partners, and nurtured those leads into a measurable increase in revenue, with Amgen and USC Keck among our sponsors.",
     video: "/video/bcla.mp4",
     poster: "/img/poster-bcla.jpg",
     focus: "50% 12%",
@@ -237,7 +237,7 @@ const CASES = [
   },
 ];
 
-type Stat = { n?: number; text?: string; suffix?: string; label: string };
+type Stat = { n?: number; text?: string; prefix?: string; suffix?: string; label: string };
 
 function Stats({ stats }: { stats: Stat[] }) {
   return (
@@ -247,6 +247,7 @@ function Stats({ stats }: { stats: Stat[] }) {
           <p className="whitespace-nowrap font-display font-bold text-[clamp(1.5rem,2.8vw,2.5rem)] leading-none text-canvas tabular-nums tracking-[-0.02em]">
             {st.text ?? (
               <>
+                {st.prefix && <span>{st.prefix}</span>}
                 <CountUp to={st.n ?? 0} />
                 {st.suffix && <span>{st.suffix}</span>}
               </>
