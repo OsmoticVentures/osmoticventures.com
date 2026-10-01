@@ -102,15 +102,15 @@ function Hero() {
   return (
     <section aria-labelledby="hero-title" className="relative isolate z-20 bg-canvas">
       <div className={CONTAINER}>
-        <header className="flex h-16 items-center justify-end lg:h-[72px]">
+        <header className="flex h-16 items-center justify-center md:justify-end lg:h-[72px]">
           <Logo priority />
         </header>
 
         <div className="grid gap-10 pt-8 pb-16 md:grid-cols-12 md:gap-6 md:pt-10 md:pb-20 lg:gap-8 lg:pt-12 lg:pb-20 xl:pt-14 xl:pb-24">
-          <div className="md:col-span-8 flex flex-col justify-center">
+          <div className="md:col-span-8 flex flex-col items-center justify-center text-center md:items-stretch md:text-left">
             <h1
               id="hero-title"
-              className="rise w-fit font-display font-bold text-[8.4vw] leading-[1.05] tracking-[-0.02em] md:text-[5.6vw] lg:text-[5.2vw] xl:text-[4.25rem]"
+              className="rise w-fit max-md:mx-auto font-display font-bold text-[8.4vw] leading-[1.05] tracking-[-0.02em] md:text-[5.6vw] lg:text-[5.2vw] xl:text-[4.25rem]"
             >
               <span className="block whitespace-nowrap">Scientific Marketing</span>
               <span className="-mt-[0.22em] block text-center text-[max(0.4em,16px)] font-medium leading-[1] tracking-normal text-bone/70">to</span>
@@ -118,7 +118,7 @@ function Hero() {
             </h1>
             <p
               style={{ "--d": "120ms" } as React.CSSProperties}
-              className="rise mt-7 text-pretty text-[17px] leading-[1.55] md:mt-8 lg:mt-10 lg:text-xl"
+              className="rise mt-7 hidden text-pretty md:block text-[17px] leading-[1.55] md:mt-8 lg:mt-10 lg:text-xl"
             >
               I&apos;m a pharmacologist who went beyond the bench to build the brands that are changing the way we heal.
             </p>
@@ -127,14 +127,14 @@ function Hero() {
           <div className="md:col-span-4 md:col-start-9 flex items-center md:justify-end">
             <div style={{ "--d": "90ms" } as React.CSSProperties} className="rise w-full">
               {/* The photo is 4:5. 8:9 anchored to the bottom trims exactly the top tenth. */}
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-surface bg-charcoal md:aspect-[8/9]">
+              <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-surface bg-charcoal md:aspect-[8/9]">
                 <Image
                   src="/img/juan-usc.png"
                   alt="Juan Arenas Martin"
                   fill
                   priority
                   sizes="(min-width: 768px) 32vw, 100vw"
-                  className="object-cover object-[center_28%] md:object-bottom"
+                  className="object-cover object-bottom"
                 />
               </div>
             </div>
