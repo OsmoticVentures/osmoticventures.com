@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { CountUp, Reveal } from "./motion";
+import { Analytics } from "./analytics";
 
 const EMAIL = "juan@osmoticventures.com";
 const LINKEDIN = "https://linkedin.com/in/juanarenasmartin";
@@ -17,9 +18,10 @@ export default function Page() {
       >
         Skip to the form
       </a>
+      <Analytics />
       <main className="bg-canvas text-bone font-body antialiased overflow-x-hidden">
         <Hero />
-        <TrackRecord />
+        <BusinessPartners />
         <WhatIBuild />
         <OneClient />
         <Team />
@@ -41,7 +43,7 @@ export default function Page() {
    - py-2 -my-2 grows the tap target to 44px+ tall without adding visible space
      (padding grows the hit area, the matching negative margin cancels it in flow) */
 function Logo({ size = "md", priority = false }: { size?: "md" | "sm"; priority?: boolean }) {
-  const text = size === "md" ? "text-sm md:text-base" : "text-xs md:text-[13px]";
+  const text = size === "md" ? "text-sm md:text-base" : "text-[13px]";
   return (
     <a href="#" aria-label="Osmotic Ventures" className="inline-flex items-center py-2 -my-2">
       <Image
@@ -100,7 +102,7 @@ function useAutoplay(mount: boolean) {
 
 function Hero() {
   return (
-    <section aria-labelledby="hero-title" className="relative isolate z-20 bg-canvas">
+    <section aria-labelledby="hero-title" data-section="hero" className="relative isolate z-20 bg-canvas">
       <div className={CONTAINER}>
         <header className="flex h-16 items-center justify-center md:justify-end lg:h-[72px]">
           <Logo priority />
@@ -145,7 +147,7 @@ function Hero() {
   );
 }
 
-/* ---------- 2. Track record (paper) ---------- */
+/* ---------- 2. Business partners (paper) ---------- */
 
 const USC = {
   company: "USC Center for Personalized Brain Health",
@@ -218,10 +220,10 @@ function Stats({ stats }: { stats: Stat[] }) {
 }
 
 const LOGOS = [
-  { src: "/img/logos/usc-brain.png", alt: "USC Center for Personalized Brain Health", w: 1421, h: 212, o: 0.85 },
-  { src: "/img/logos/metaba.svg", alt: "Metaba", w: 330, h: 64, o: 0.55 },
-  { src: "/img/logos/biotech-connection.png", alt: "Biotech Connection LA", w: 751, h: 156, o: 1, mh: 44 },
-  { src: "/img/logos/superbiome.png", alt: "Superbiome", w: 1715, h: 386, o: 0.38, mh: 28 },
+  { src: "/img/logos/usc-brain.png", href: "https://keck.usc.edu/cpbh/", alt: "USC Center for Personalized Brain Health", w: 1421, h: 212, o: 0.85 },
+  { src: "/img/logos/metaba.svg", href: "https://www.metabahealth.us/", alt: "Metaba", w: 330, h: 64, o: 0.55 },
+  { src: "/img/logos/biotech-connection.png", href: "https://www.bc-la.org/", alt: "Biotech Connection LA", w: 751, h: 156, o: 1, mh: 44 },
+  { src: "/img/logos/superbiome.png", href: "https://www.superbiome.com/", alt: "Superbiome", w: 1715, h: 386, o: 0.38, mh: 28 },
 ];
 
 function VideoTile({
@@ -269,31 +271,43 @@ function VideoTile({
   );
 }
 
-function TrackRecord() {
+function BusinessPartners() {
   return (
     <section
-      id="track-record"
-      aria-labelledby="track-record-title"
+      id="business-partners"
+      data-section="business_partners"
+      aria-labelledby="business-partners-title"
       className="relative z-10 bg-paper text-canvas py-16 md:py-24 lg:py-32 xl:py-36"
     >
       <div className={CONTAINER}>
         <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
           <Reveal className="shrink-0">
-            <SectionTitle id="track-record-title" title="Track Record" onPaper />
+            <SectionTitle id="business-partners-title" title="Business Partners" onPaper />
           </Reveal>
           <Reveal delay={60}>
-            <ul className="grid grid-cols-2 gap-x-6 gap-y-4 sm:flex sm:flex-wrap sm:gap-x-8 lg:flex-nowrap lg:gap-x-6 xl:gap-x-8">
+            <ul className="grid grid-cols-1 gap-y-3 sm:flex sm:flex-wrap sm:gap-x-8 lg:flex-nowrap lg:gap-x-6 xl:gap-x-8">
               {LOGOS.map((l) => (
-                <li key={l.alt} className="flex h-10 items-center justify-start sm:justify-center md:h-11 lg:h-8 xl:h-11">
-                  <Image
-                    src={l.src}
-                    alt={l.alt}
-                    width={l.w}
-                    height={l.h}
-                    sizes="170px"
-                    style={{ opacity: l.o, maxHeight: l.mh }}
-                    className="max-h-8 w-auto max-w-[140px] object-contain grayscale contrast-75 md:max-h-9 md:max-w-[150px] lg:max-h-8 lg:max-w-[136px] xl:max-h-9 xl:max-w-[150px]"
-                  />
+                <li key={l.alt} className="flex min-h-[88px] items-center justify-center rounded-xl border border-canvas/15 bg-bone/60 sm:min-h-0 sm:justify-center sm:rounded-none sm:border-0 sm:bg-transparent sm:h-10 md:h-11 lg:h-8 xl:h-11">
+                  <a
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${l.alt} website`}
+                    data-track="partner_logo_click"
+                    data-partner={l.alt}
+                    className="flex min-h-[44px] w-full items-center justify-center px-3 sm:w-auto sm:px-0"
+                  >
+                    <Image
+                      src={l.src}
+                      alt={l.alt}
+                      width={l.w}
+                      height={l.h}
+                      sizes="(max-width: 640px) 300px, 170px"
+                      loading="lazy"
+                      style={{ opacity: l.o, "--mh": l.mh ? `${l.mh}px` : undefined } as React.CSSProperties}
+                      className="max-h-14 w-auto max-w-[300px] max-sm:!opacity-100 object-contain grayscale contrast-75 sm:max-h-8 sm:max-w-[140px] sm:[max-height:var(--mh,2rem)] md:max-h-9 md:max-w-[150px] md:[max-height:var(--mh,2.25rem)] lg:max-h-8 lg:max-w-[136px] lg:[max-height:var(--mh,2rem)] xl:max-h-9 xl:max-w-[150px] xl:[max-height:var(--mh,2.25rem)]"
+                    />
+                  </a>
                 </li>
               ))}
             </ul>
@@ -356,7 +370,7 @@ function TrackRecord() {
                     href="https://linkedin.com/in/philipjsell"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="underline underline-offset-4 hover:text-canvas/70"
+                    className="inline-block py-3 -my-3 underline underline-offset-4 hover:text-canvas/70"
                   >
                     LinkedIn
                   </a>
@@ -551,6 +565,7 @@ function WhatIBuild() {
   return (
     <section
       id="what-i-build"
+      data-section="what_i_build"
       aria-labelledby="what-i-build-title"
       className="bg-canvas py-16 md:py-24 lg:py-32 xl:py-36"
     >
@@ -584,6 +599,7 @@ function OneClient() {
   return (
     <section
       id="one-project"
+      data-section="one_project"
       aria-labelledby="one-project-title"
       className="relative z-10 bg-paper text-canvas py-16 md:py-24 lg:py-32 xl:py-36"
     >
@@ -632,6 +648,7 @@ function Team() {
   return (
     <section
       id="team"
+      data-section="team"
       aria-labelledby="team-title"
       className="bg-canvas py-16 md:py-24 lg:py-32 xl:py-36"
     >
@@ -794,6 +811,7 @@ function CallForm() {
   return (
     <form
       ref={formRef}
+      data-ph-no-capture
       id="call-form"
       noValidate
       onSubmit={onSubmit}
@@ -811,6 +829,8 @@ function CallForm() {
       </div>
       <button
         type="submit"
+        data-track="cta_click"
+        data-cta="request_a_call_submit"
         disabled={state === "sending"}
         className={[
           "mt-8 h-14 w-full rounded-xl bg-sage text-base font-semibold text-canvas",
@@ -836,6 +856,7 @@ function RequestACall() {
   return (
     <section
       id="request-a-call"
+      data-section="request_a_call"
       aria-labelledby="request-a-call-title"
       className="bg-canvas py-16 md:py-24 lg:py-32 xl:py-36"
     >
@@ -846,7 +867,7 @@ function RequestACall() {
             <p className="mt-6 text-[17px] leading-[1.55] xl:text-lg">I reply within 24 hours.</p>
             <p className="mt-8 text-[15px] leading-[1.6] text-bone/70">
               Or email{" "}
-              <a href={`mailto:${EMAIL}`} className="underline underline-offset-4 hover:text-bone">
+              <a href={`mailto:${EMAIL}`} data-track="cta_click" data-cta="email_link" className="inline-flex min-h-[44px] items-center underline underline-offset-4 hover:text-bone">
                 {EMAIL}
               </a>
             </p>
@@ -869,14 +890,14 @@ function SiteFooter() {
           <p>&copy; {new Date().getFullYear()} Osmotic Ventures LLC, Los Angeles. Juan Arenas Martin, Owner.</p>
         </div>
         <div className="flex gap-6">
-          <a href={`mailto:${EMAIL}`} className="hover:text-bone hover:underline underline-offset-4">
+          <a href={`mailto:${EMAIL}`} data-track="cta_click" data-cta="footer_email" className="inline-flex min-h-[44px] items-center hover:text-bone hover:underline underline-offset-4">
             {EMAIL}
           </a>
           <a
             href={LINKEDIN}
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-bone hover:underline underline-offset-4"
+            className="inline-flex min-h-[44px] items-center hover:text-bone hover:underline underline-offset-4"
           >
             LinkedIn
           </a>
