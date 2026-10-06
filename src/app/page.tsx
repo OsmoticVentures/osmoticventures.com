@@ -881,26 +881,135 @@ function RequestACall() {
   );
 }
 
-function SiteFooter() {
+const PHONE = "(323) 775-3850";
+const PHONE_HREF = "tel:+13237753850";
+
+const FOOTER_SECTIONS = [
+  { href: "#business-partners", label: "Business Partners" },
+  { href: "#what-i-build", label: "What I Build" },
+  { href: "#one-project", label: "One Project at a Time" },
+  { href: "#team", label: "Team and Connections" },
+  { href: "#request-a-call", label: "Request a Call", cta: "footer_request_call" },
+];
+
+const FOOTER_LINK =
+  "inline-flex min-h-[44px] items-center text-bone/60 transition-colors duration-150 hover:text-bone active:text-bone fine:min-h-6";
+
+function FooterColumn({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <footer className="border-t border-surface bg-charcoal pb-10 pt-12 text-sm text-bone/70 md:pb-12 md:pt-16">
-      <div className={`${CONTAINER} flex flex-col gap-6 md:flex-row md:items-center md:justify-between`}>
-        <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-5">
-          <Logo size="sm" />
-          <p>&copy; {new Date().getFullYear()} Osmotic Ventures LLC, Los Angeles. Juan Arenas Martin, Owner.</p>
-        </div>
-        <div className="flex gap-6">
-          <a href={`mailto:${EMAIL}`} data-track="cta_click" data-cta="footer_email" className="inline-flex min-h-[44px] items-center hover:text-bone hover:underline underline-offset-4">
-            {EMAIL}
-          </a>
-          <a
-            href={LINKEDIN}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex min-h-[44px] items-center hover:text-bone hover:underline underline-offset-4"
+    <div>
+      <h3 className="text-[13px] font-medium tracking-[0.01em] text-bone">{title}</h3>
+      <ul className="mt-1 flex flex-col text-[15px] leading-[1.6] tracking-[0.01em] sm:text-[13px] md:mt-4">{children}</ul>
+    </div>
+  );
+}
+
+/* Paper grain: fractal noise, bone on the charcoal ground, held very low. */
+function Grain() {
+  return (
+    <svg
+      aria-hidden
+      focusable="false"
+      className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.07]"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <filter id="footer-grain" x="0" y="0" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" />
+        <feColorMatrix values="0 0 0 0 0.95  0 0 0 0 0.94  0 0 0 0 0.9  0 0 0 1.1 -0.1" />
+      </filter>
+      <rect width="100%" height="100%" filter="url(#footer-grain)" />
+    </svg>
+  );
+}
+
+function SiteFooter() {
+  const fade =
+    "linear-gradient(to bottom, transparent 3%, #000 30%, #000 58%, transparent 97%), linear-gradient(to right, transparent 0%, #000 38%)";
+  return (
+    <footer className="relative isolate overflow-hidden border-t border-surface bg-charcoal pb-10 pt-12 text-bone md:pb-12 md:pt-16 lg:pt-20">
+      <Grain />
+      <div className={`${CONTAINER} relative`}>
+        <Logo size="sm" />
+
+        <div className="relative lg:min-h-[560px]">
+          <Reveal className="relative z-10 lg:max-w-[640px]">
+            <h2 className="mt-16 font-display text-[clamp(2.5rem,5vw,3.5rem)] font-medium leading-[1.05] tracking-[-0.02em] text-bone lg:mt-24">
+              Contact
+            </h2>
+
+            <div className="mt-12 grid grid-cols-[104px_1fr] gap-x-8 gap-y-10 sm:grid-cols-[180px_auto] md:mt-14">
+              <FooterColumn title="Location">
+                <li className="inline-flex min-h-[44px] items-center text-bone/60 fine:min-h-6">Los Angeles</li>
+              </FooterColumn>
+              <FooterColumn title="Get in touch">
+                <li>
+                  <a
+                    href={`mailto:${EMAIL}`}
+                    data-track="cta_click"
+                    data-cta="footer_email"
+                    className={FOOTER_LINK}
+                  >
+                    {EMAIL}
+                  </a>
+                </li>
+                <li>
+                  <a href={PHONE_HREF} data-track="cta_click" data-cta="footer_phone" className={FOOTER_LINK}>
+                    {PHONE}
+                  </a>
+                </li>
+                <li>
+                  <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className={FOOTER_LINK}>
+                    LinkedIn
+                  </a>
+                </li>
+              </FooterColumn>
+            </div>
+
+            <div className="mt-20 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-[180px_auto] md:mt-24">
+              <FooterColumn title="Sections">
+                {FOOTER_SECTIONS.map((l) => (
+                  <li key={l.href}>
+                    <a
+                      href={l.href}
+                      {...(l.cta ? { "data-track": "cta_click", "data-cta": l.cta } : {})}
+                      className={FOOTER_LINK}
+                    >
+                      {l.label}
+                    </a>
+                  </li>
+                ))}
+              </FooterColumn>
+              <FooterColumn title="Partners">
+                {LOGOS.map((l) => (
+                  <li key={l.alt}>
+                    <a href={l.href} target="_blank" rel="noopener noreferrer" className={FOOTER_LINK}>
+                      {l.alt}
+                    </a>
+                  </li>
+                ))}
+              </FooterColumn>
+            </div>
+          </Reveal>
+
+          <div
+            aria-hidden
+            className="pointer-events-none absolute hidden lg:-right-4 lg:bottom-0 lg:top-0 lg:block lg:w-[46%]"
+            style={{ WebkitMaskImage: fade, maskImage: fade, WebkitMaskComposite: "source-in", maskComposite: "intersect" }}
           >
-            LinkedIn
-          </a>
+            <Image
+              src="/ov-monogram.png"
+              alt=""
+              fill
+              sizes="46vw"
+              className="object-contain object-[70%_45%] opacity-[0.5]"
+            />
+          </div>
+        </div>
+
+        <div className="relative z-10 mt-14 border-t border-bone/10 pt-6 lg:max-w-[640px]">
+          <p className="whitespace-nowrap text-[12px] leading-[1.6] tracking-[0.01em] text-bone/60 sm:text-[13px]">
+            &copy; {new Date().getFullYear()} Osmotic Ventures LLC. Juan Arenas Martin, Owner.
+          </p>
         </div>
       </div>
     </footer>

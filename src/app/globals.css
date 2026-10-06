@@ -22,6 +22,9 @@
   --color-sage-hover: #8ab59d;
 }
 
+/* Mouse-and-trackpad devices only; touch devices keep full-size tap targets. */
+@custom-variant fine (@media (hover: hover) and (pointer: fine));
+
 *,
 *::before,
 *::after {
