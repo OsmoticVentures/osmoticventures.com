@@ -895,6 +895,9 @@ const FOOTER_SECTIONS = [
 const FOOTER_LINK =
   "inline-flex min-h-[44px] items-center text-bone/60 transition-colors duration-150 hover:text-bone active:text-bone fine:min-h-6";
 
+const FOOTER_LINK_LG =
+  "inline-flex min-h-[44px] items-center text-bone/70 transition-colors duration-150 hover:text-bone active:text-bone";
+
 function FooterColumn({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
@@ -934,35 +937,29 @@ function SiteFooter() {
         <div className="relative lg:min-h-[560px]">
           <Reveal className="relative z-10 lg:max-w-[640px]">
             <h2 className="mt-16 font-display text-[clamp(2.5rem,5vw,3.5rem)] font-medium leading-[1.05] tracking-[-0.02em] text-bone lg:mt-24">
-              Contact
+              Osmotic Ventures
             </h2>
+            <p className="mt-3 text-[clamp(1.125rem,2vw,1.375rem)] leading-[1.3] text-bone/60">Scientific marketing</p>
 
-            <div className="mt-12 grid grid-cols-[104px_1fr] gap-x-8 gap-y-10 sm:grid-cols-[180px_auto] md:mt-14">
-              <FooterColumn title="Location">
-                <li className="inline-flex min-h-[44px] items-center text-bone/60 fine:min-h-6">Los Angeles</li>
-              </FooterColumn>
-              <FooterColumn title="Get in touch">
+            <div className="mt-12 md:mt-14">
+              <h3 className="text-[clamp(1.375rem,2.4vw,1.75rem)] font-medium tracking-[-0.01em] text-bone">Get in touch</h3>
+              <ul className="mt-3 flex flex-col text-[clamp(1.25rem,2.2vw,1.625rem)] leading-[1.5] tracking-[0.005em]">
                 <li>
-                  <a
-                    href={`mailto:${EMAIL}`}
-                    data-track="cta_click"
-                    data-cta="footer_email"
-                    className={FOOTER_LINK}
-                  >
+                  <a href={`mailto:${EMAIL}`} data-track="cta_click" data-cta="footer_email" className={FOOTER_LINK_LG}>
                     {EMAIL}
                   </a>
                 </li>
                 <li>
-                  <a href={PHONE_HREF} data-track="cta_click" data-cta="footer_phone" className={FOOTER_LINK}>
+                  <a href={PHONE_HREF} data-track="cta_click" data-cta="footer_phone" className={FOOTER_LINK_LG}>
                     {PHONE}
                   </a>
                 </li>
                 <li>
-                  <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className={FOOTER_LINK}>
+                  <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className={FOOTER_LINK_LG}>
                     LinkedIn
                   </a>
                 </li>
-              </FooterColumn>
+              </ul>
             </div>
 
             <div className="mt-20 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-[180px_auto] md:mt-24">
