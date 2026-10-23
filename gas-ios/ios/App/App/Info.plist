@@ -26,8 +26,6 @@
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Gas uses your location to find the cheapest fill on the way to where you're going.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Gas uses your location to find the cheapest fill on the way to where you're going.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
