@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+/* Gas has its own root layout, so it carries only what it needs: the light
+   ground, Hanken for body text (Fraunces is set per heading in GasApp). */
+body {
+  background: #F7F6F1;
+  color: #14201B;
+  font-family: var(--font-hanken), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

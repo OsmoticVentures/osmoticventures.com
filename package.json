@@ -10,6 +10,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/geolocation": "^8.2.2",
     "next": "16.2.6",
     "nodemailer": "^7.0.6",
     "posthog-js": "^1.435.6",

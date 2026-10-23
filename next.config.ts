@@ -19,6 +19,9 @@ const STOKE_CLUB_ORIGIN = process.env.STOKE_CLUB_ORIGIN ?? "https://juans-macboo
 
 const nextConfig: NextConfig = {
   deploymentId: process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 32),
+  // Two root layouts, "(site)" and "(gas)": the 404 for an unmatched URL is
+  // src/app/global-not-found.tsx.
+  experimental: { globalNotFound: true },
   async redirects() {
     return [
       // Metri Bio client pages live at /metribio/{strategy,sow,why}; the bare path opens Strategy.
