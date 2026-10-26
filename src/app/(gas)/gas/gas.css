@@ -18,3 +18,48 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Numbers hold their width as they change. */
+body {
+  font-variant-numeric: tabular-nums;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p,
+li {
+  text-wrap: pretty;
+}
+
+/* Continuous corners where supported; the radii stay as written. */
+@supports (corner-shape: squircle) {
+  [class*="rounded-"]:not(.rounded-full):not(.rounded-none) {
+    corner-shape: squircle;
+  }
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+/* Skeleton: a quiet pulse on the card's own shapes. */
+.gas-skel {
+  background: #eceae1;
+  animation: gas-skel 1.4s ease-in-out infinite;
+}
+
+@keyframes gas-skel {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gas-skel {
+    animation: none;
+  }
+}

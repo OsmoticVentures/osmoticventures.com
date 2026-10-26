@@ -84,7 +84,44 @@ body {
   animation-delay: var(--d, 0ms);
 }
 
+/* Native transitions: pages and state swaps cross-fade with the platform's own mechanism. */
+@view-transition {
+  navigation: auto;
+}
+
+/* Balanced headlines, no one-word last lines in paragraphs. */
+h1,
+h2,
+h3,
+blockquote {
+  text-wrap: balance;
+}
+
+p,
+li {
+  text-wrap: pretty;
+}
+
+/* Numbers that change or sit in a column hold their width. */
+.tabular,
+[data-count] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Continuous corners where the browser supports them; the radii stay as written. */
+@supports (corner-shape: squircle) {
+  [class*="rounded-"]:not(.rounded-full):not(.rounded-none) {
+    corner-shape: squircle;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+
   *,
   *::before,
   *::after {

@@ -65,7 +65,7 @@ export function CountUp({ to, prefix = "", suffix = "" }: { to: number; prefix?:
     return () => cancelAnimationFrame(raf);
   }, [shown, to]);
   return (
-    <span ref={ref as React.RefObject<HTMLSpanElement>}>
+    <span ref={ref as React.RefObject<HTMLSpanElement>} className="tabular-nums">
       {prefix}
       {n.toLocaleString("en-US")}
       {suffix}

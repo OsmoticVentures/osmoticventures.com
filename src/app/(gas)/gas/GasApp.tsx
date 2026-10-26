@@ -170,7 +170,7 @@ export default function GasApp() {
   };
 
   return (
-    <main className="mx-auto max-w-[440px] px-5 pb-16 pt-[max(20px,env(safe-area-inset-top))]">
+    <main className="mx-auto max-w-[440px] pl-[max(20px,env(safe-area-inset-left))] pr-[max(20px,env(safe-area-inset-right))] pb-[max(64px,calc(env(safe-area-inset-bottom)+24px))] pt-[max(20px,env(safe-area-inset-top))]">
       <header className="flex items-center justify-between">
         <h1 className="font-[family-name:var(--font-fraunces)] text-[30px] font-semibold leading-none tracking-tight">
           {product === "gas" ? "Gas" : "Car Wash"}
@@ -295,6 +295,8 @@ export default function GasApp() {
       )}
       {formError && <p className="mt-3 text-[14px] text-[#8A6D2F]">{formError}</p>}
 
+      {pending && <ResultSkeleton />}
+
       {result && !pending && result.product === "nearest" && (
         <section ref={resultsRef} className="mt-8 scroll-mt-4">
           {result.ok ? (
@@ -356,6 +358,35 @@ export default function GasApp() {
         </section>
       )}
     </main>
+  );
+}
+
+/* Card-shaped placeholders in the result's own layout, so the page does not jump when prices land. */
+function ResultSkeleton() {
+  return (
+    <section className="mt-8" aria-busy="true" aria-label="Loading results">
+      <div className="gas-skel h-6 w-40 rounded-md" />
+      <div className="gas-skel mt-2 h-4 w-56 rounded-md" />
+      <ol className="mt-4 space-y-3">
+        {[0, 1, 2].map((i) => (
+          <li key={i} className="rounded-2xl border border-[#E2DFD5] bg-white p-4">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0 flex-1">
+                <div className="gas-skel h-[22px] w-3/5 rounded-md" />
+                <div className="gas-skel mt-1.5 h-4 w-4/5 rounded-md" />
+              </div>
+              <div className="shrink-0">
+                <div className="gas-skel h-[22px] w-16 rounded-md" />
+                <div className="gas-skel ml-auto mt-1.5 h-4 w-12 rounded-md" />
+              </div>
+            </div>
+            <div className="gas-skel mt-3 h-10 w-28 rounded-md" />
+            <div className="gas-skel mt-3 h-4 w-48 rounded-md" />
+            <div className="gas-skel mt-4 h-11 w-full rounded-xl" />
+          </li>
+        ))}
+      </ol>
+    </section>
   );
 }
 
@@ -513,7 +544,7 @@ function LocationPill({ state, onRetry }: { state: LocState; onRetry: () => void
     <button
       type="button"
       onClick={onRetry}
-      className="h-9 rounded-full bg-[#14201B] px-4 text-[13px] font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6A46] focus-visible:ring-offset-2"
+      className="relative h-9 rounded-full bg-[#14201B] px-4 text-[13px] after:absolute after:-inset-x-1 after:-inset-y-1 after:content-[''] font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6A46] focus-visible:ring-offset-2"
     >
       Allow location
     </button>
@@ -526,7 +557,7 @@ function Chip({ active, onClick, children }: { active: boolean; onClick: () => v
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`h-10 rounded-full border px-4 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6A46] ${
+      className={`h-11 rounded-full border px-4 text-[15px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C6A46] ${
         active ? "border-[#14201B] bg-[#14201B] text-white" : "border-[#E2DFD5] bg-white text-[#14201B]"
       }`}
     >

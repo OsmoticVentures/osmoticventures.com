@@ -2,12 +2,16 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { flushSync } from "react-dom";
 import { CountUp, Reveal } from "./motion";
 import { Analytics } from "./analytics";
+import { BLUR } from "./blur";
 
 const EMAIL = "juan@osmoticventures.com";
 const LINKEDIN = "https://linkedin.com/in/juanarenasmartin";
-const CONTAINER = "mx-auto w-full max-w-[1200px] px-5 md:px-8";
+/* Side padding is the gutter or the notch inset, whichever is larger (landscape iPhone). */
+const CONTAINER =
+  "mx-auto w-full max-w-[1200px] pl-[max(1.25rem,env(safe-area-inset-left))] pr-[max(1.25rem,env(safe-area-inset-right))] md:pl-[max(2rem,env(safe-area-inset-left))] md:pr-[max(2rem,env(safe-area-inset-right))]";
 
 export default function Page() {
   return (
@@ -135,6 +139,8 @@ function Hero() {
                   alt="Juan Arenas Martin"
                   fill
                   priority
+                  placeholder="blur"
+                  blurDataURL={BLUR["/img/juan-usc.png"]}
                   sizes="(min-width: 768px) 32vw, 100vw"
                   className="object-cover object-bottom"
                 />
@@ -248,6 +254,8 @@ function VideoTile({
         src={poster}
         alt=""
         fill
+        placeholder="blur"
+        blurDataURL={BLUR[poster]}
         sizes="(min-width: 768px) 33vw, 100vw"
         className="object-cover"
         style={{ objectPosition: focus }}
@@ -356,6 +364,8 @@ function BusinessPartners() {
                 alt="Philip Sell"
                 width={224}
                 height={224}
+                placeholder="blur"
+                blurDataURL={BLUR["/img/phil-sell-metaba.png"]}
                 className="h-48 w-48 shrink-0 rounded-full object-cover sm:h-56 sm:w-56"
               />
               <div>
@@ -699,6 +709,8 @@ function CallForm() {
   const [state, setState] = useState<"idle" | "sending" | "sent" | "failed">("idle");
   const [sentTo, setSentTo] = useState("");
   const [mailto, setMailto] = useState(`mailto:${EMAIL}`);
+  // One key per form, kept across retries, so a double tap or a retry never sends twice.
+  const keyRef = useRef<string>("");
 
   useEffect(() => {
     if (state === "sent") headingRef.current?.focus();
@@ -727,17 +739,24 @@ function CallForm() {
       return;
     }
     const data = Object.fromEntries(new FormData(f).entries()) as Record<string, string>;
+    if (!keyRef.current) keyRef.current = crypto.randomUUID();
     setState("sending");
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Idempotency-Key": keyRef.current },
         body: JSON.stringify({ ...data, t }),
       });
       const json = (await res.json().catch(() => ({}))) as { ok?: boolean; mailto?: string };
       if (res.ok && json.ok) {
-        setSentTo(data.email);
-        setState("sent");
+        const done = () => {
+          setSentTo(data.email);
+          setState("sent");
+        };
+        // The form hands over to the confirmation with the platform's own transition.
+        const vt = (document as Document & { startViewTransition?: (cb: () => void) => unknown }).startViewTransition;
+        if (vt && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) vt.call(document, () => flushSync(done));
+        else done();
       } else {
         if (json.mailto) setMailto(json.mailto);
         setState("failed");
@@ -929,7 +948,7 @@ function SiteFooter() {
   const fade =
     "linear-gradient(to bottom, transparent 3%, #000 30%, #000 58%, transparent 97%), linear-gradient(to right, transparent 0%, #000 38%)";
   return (
-    <footer className="relative isolate overflow-hidden border-t border-surface bg-charcoal pb-10 pt-12 text-bone md:pb-12 md:pt-16 lg:pt-20">
+    <footer className="relative isolate overflow-hidden border-t border-surface bg-charcoal pb-[max(2.5rem,env(safe-area-inset-bottom))] pt-12 text-bone md:pb-12 md:pt-16 lg:pt-20">
       <Grain />
       <div className={`${CONTAINER} relative`}>
         <Logo size="sm" />

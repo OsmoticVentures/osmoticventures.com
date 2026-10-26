@@ -6,6 +6,20 @@ export const runtime = "nodejs";
 const TO = "juan@osmoticventures.com";
 const MAX = { name: 120, email: 200, company: 160, message: 1000 };
 
+// Idempotency: a key already claimed is answered ok without sending again.
+// A key is claimed on arrival and released if the send fails, so a retry still works.
+// Held in memory per instance, bounded to 500 keys and 10 minutes.
+const CLAIMED = new Map<string, number>();
+const CLAIM_TTL = 10 * 60 * 1000;
+function claim(key: string): boolean {
+  const now = Date.now();
+  for (const [k, t] of CLAIMED) if (now - t > CLAIM_TTL) CLAIMED.delete(k);
+  while (CLAIMED.size >= 500) CLAIMED.delete(CLAIMED.keys().next().value as string);
+  if (CLAIMED.has(key)) return false;
+  CLAIMED.set(key, now);
+  return true;
+}
+
 type Payload = { name: string; email: string; company: string; message: string };
 
 function clean(v: unknown, max: number) {
@@ -40,9 +54,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true });
   }
 
+  const idem = clean(req.headers.get("idempotency-key"), 80);
+  if (idem && !claim(idem)) return NextResponse.json({ ok: true });
+
   const user = process.env.ZOHO_SMTP_USER;
   const pass = process.env.ZOHO_SMTP_PASS;
   if (!user || !pass) {
+    if (idem) CLAIMED.delete(idem);
     console.error("contact: SMTP credentials not configured");
     return NextResponse.json({ ok: false, error: "not_configured", mailto: fallback(p) }, { status: 503 });
   }
@@ -63,6 +81,7 @@ export async function POST(req: Request) {
     });
     return NextResponse.json({ ok: true });
   } catch (err) {
+    if (idem) CLAIMED.delete(idem);
     console.error("contact: send failed", err);
     return NextResponse.json({ ok: false, error: "send_failed", mailto: fallback(p) }, { status: 502 });
   }
